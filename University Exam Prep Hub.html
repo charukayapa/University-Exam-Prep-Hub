@@ -209,19 +209,83 @@
         const moduleData = {
             'Performance Requirements': {
                 notes: `
-                    <p class="mb-4 text-secondary">Performance requirements are set to ensure a building meets fundamental criteria like safety, stability, and function, especially under extreme conditions.</p>
-                    ${renderInteractiveNotesBlock('Building Standards & Design Criteria', 'The framework for design and construction quality.')}
+                    <h2 class="text-2xl font-bold mb-4 text-light-main">🧠 Guided Study Notes: Building Structural Performance and Systems</h2>
+                    <p class="mb-4 text-secondary">These notes summarize the key concepts from your module for easier memorization, focusing on structural performance, complexity and scale, and structural systems, forms & components.</p>
+                    
+                    ${renderInteractiveNotesBlock('1. Building Performance and Standards', 'The fundamental requirements for building structural systems.')}
+                        <h3 class="text-xl font-bold mt-2 mb-2 text-blue-400">Performance Standards (New Zealand Building Act 2004) 🇳🇿</h3>
+                        <p class="text-sm text-light-main">The <strong>Building Act 2004</strong> sets performance standards for buildings. It aims to ensure a building will:</p>
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
-                            <li><strong>Structural Integrity:</strong> The critical ability of the structure to <strong>hold together without breaking or deforming excessively</strong> under load.</li>
-                            <li><strong>Building Act 2004:</strong> Sets performance standards ensuring <strong>safety</strong>, <strong>health</strong>, <strong>escape</strong> (fire), and promotion of sustainable development.</li>
-                            <li><strong>Core Criteria:</strong> Performance is judged on: <strong>Structural Integrity</strong> (stability, efficiency), <strong>Exterior Envelope</strong> (filter/weathertightness), and <strong>Building Services</strong> (functionality).</li>
+                            <li>Ensure the <strong>safety of building users</strong>.</li>
+                            <li>Contribute to the <strong>health and well-being of occupants</strong>.</li>
+                            <li>Allow people to <strong>escape if on fire</strong>.</li>
+                            <li>Promote <strong>sustainable development</strong> (designed and constructed).</li>
+                        </ul>
+                        <h3 class="text-xl font-bold mt-4 mb-2 text-blue-400">Structural Integrity: The Absolute Minimum</h3>
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Definition:</strong> <strong>Structural integrity</strong> is the ability of the building structure to hold together <strong>without breaking or deforming excessively</strong>.</li>
+                            <li><strong>Core Expectation:</strong> <strong>Safe buildings is a minimum</strong>. We do not expect to be killed by a building.</li>
+                            <li><strong>Evaluation:</strong> It's "A measure of the **quality of construction** and the ability of the structure to <strong>function as required</strong>". This includes:
+                                <ul class="list-circle list-inside ml-6 text-xs mt-1">
+                                    <li>Does it perform as intended?</li>
+                                    <li>Does it hold up against forces as intended?</li>
+                                    <li>Will it work for as long as it was supposed to work?</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lesson from Failure:</strong> Catastrophic failures, like the Kansas City Hyatt Regency Bridge Collapse (1981), illustrate that a seemingly minor change in a suspension detail requested by contractors overloaded a beam and led to failure. The final constructed component was insufficient to carry the load.</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Complexity Drivers: Scale & Solutions', 'Why complex engineering is required for large buildings.')}
+                    
+                    ${renderInteractiveNotesBlock('2. Complexity and Scale (Loads & Forces)', 'How increasing size leads to greater engineering requirements.')}
+                        <h3 class="text-xl font-bold mt-2 mb-2 text-blue-400">Scale Increases Complexity</h3>
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
-                            <li><strong>Vertical Scale:</strong> Tall buildings (over $\mathbf{100 \text{ m}}$) are highly sensitive to dynamic loads from <strong>wind</strong> and <strong>earthquake</strong> forces.</li>
-                            <li><strong>Horizontal Scale:</strong> Large spans (e.g., warehouses, stadia) require special members like <strong>trusses, castellated beams</strong>, or <strong>space frames</strong> to carry long-span loads efficiently.</li>
-                            <li><strong>Specific Engineering Design (SED):</strong> Due to the complexity and high risk associated with commercial scale, most structural solutions require <strong>Specific Engineering Design</strong> by a professional engineer, rather than simple code compliance.</li>
+                            <li><strong>Core Principle:</strong> Increasing building <strong>scale</strong> results in increased forces, loads, and stresses being placed on the structure and fabric.</li>
+                            <li><strong>Complexity:</strong> The design and construction of large contemporary buildings frequently goes beyond traditional construction methods and past experience.</li>
+                            <li><strong>Vertical Scale (Height):</strong> <strong>Tall buildings</strong> (in excess of $\mathbf{100 \text{ m}}$ tall or approx. 30 stories) are very sensitive to **wind and earthquake stresses**. This requires innovative structural systems and cladding fixing/jointing systems.</li>
+                            <li><strong>Lateral Scale (Width/Span):</strong> For single-enclosure buildings (e.g., warehouses, factories), increased width requires <strong>longer structural spans</strong>. Increased spans require more complex structures like <strong>trusses, castellated beams</strong>, and <strong>space frames</strong>.</li>
+                        </ul>
+                        <h3 class="text-xl font-bold mt-4 mb-2 text-blue-400">Structural Performance Requirements Must Consider (Non-Technical Factors)</h3>
+                        <p class="text-sm text-light-main">When designing a building, the following non-technical factors influence the structural choice:</p>
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Speed of construction</strong> and availability of materials and skilled labour.</li>
+                            <li>The **cost of materials** and components.</li>
+                            <li>The **designer's preference**.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+
+                    ${renderInteractiveNotesBlock('3. Structural Systems, Forms & Components', 'Major structural components and lateral support methods.')}
+                        <h3 class="text-xl font-bold mt-2 mb-2 text-blue-400">Major Structural Components</h3>
+                        <p class="text-sm text-light-main">The primary function of a building structure is to support the major space enclosing elements: floors, roofs, and walls.</p>
+                        <table class="min-w-full text-sm mt-3 bg-gray-700 rounded-lg overflow-hidden">
+                            <thead>
+                                <tr class="bg-gray-800 text-blue-400">
+                                    <th class="p-2 text-left">Component</th>
+                                    <th class="p-2 text-left">Function</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-600">
+                                <tr><td class="p-2"><strong>Substructure</strong></td><td class="p-2">Foundations to transfer loads to <strong>underlying soils</strong>.</td></tr>
+                                <tr><td class="p-2"><strong>Superstructure</strong></td><td class="p-2">Structural frame to resist (and transfer) <strong>vertical loads</strong>.</td></tr>
+                                <tr><td class="p-2"><strong>Support Systems</strong></td><td class="p-2"><strong>Bracing system</strong> to resist <strong>lateral loads</strong> (wind, earthquake, soil).</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 class="text-xl font-bold mt-4 mb-2 text-blue-400">Key Structural Elements</h3>
+                        <p class="text-sm text-light-main">Elements that make up the frame and enclosure:</p>
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Columns:</strong> Vertical compression members. Can support beams (lateral frame) or directly support a slab.</li>
+                            <li><strong>Beams:</strong> Horizontal elements transferring loads through <strong>bending and shear forces</strong>. Complex beams direct material to top/bottom chords.</li>
+                            <li><strong>Walls:</strong> Resist vertical loads, contribute to <strong>lateral support (bracing)</strong>, and form the weatherproofing envelope.</li>
+                            <li><strong>Slabs:</strong> Plates that collect and disperse loads. <strong>One-way spanning</strong> (rectilinear, loads toward long side); <strong>Two-way spanning</strong> (square, loads to all four sides).</li>
+                            <li><strong>Trusses:</strong> A structural frame based on the <strong>geometric rigidity of a triangle</strong>. Members are subject to axial tension or compression.</li>
+                        </ul>
+
+                        <h3 class="text-xl font-bold mt-4 mb-2 text-blue-400">Lateral Support (Bracing) Methods</h3>
+                        <p class="text-sm text-light-main">A structure must support <strong>horizontal loadings</strong> from wind and earthquake forces.</p>
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Concrete Framed:</strong> Uses <strong>Shear walls</strong>, <strong>floor plates</strong>, and <strong>rigid beam/column junctions</strong>.</li>
+                            <li><strong>Steel Framed (Portal):</strong> Uses <strong>Shear walls</strong>, <strong>steel bay bracing</strong>, and <strong>rigid portal knee junctions</strong>. Rigid joints allow smaller rafters by transferring bending moments to columns.</li>
+                            <li><strong>Steel Framed (High-Rise):</strong> Lateral support is often concentrated in <strong>concrete shear walls to the core</strong> of the building.</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
                 `,
@@ -262,29 +326,143 @@
             },
             'Structural Principles': {
                 notes: `
-                    <p class="mb-4 text-secondary">Structural Principles are the foundation of construction technology. Focus on how forces translate into stress, and how systems ensure stability (Lateral Support & Limit State Design).</p>
-                    ${renderInteractiveNotesBlock('Limit State Design (LSD) & Structural Concepts', 'Understanding ULS, SLS, and the forces acting on members.')}
-                        <p class="text-sm space-y-2 text-light-main">LSD is the standard for modern design, ensuring the structure operates within acceptable limits.</p>
+                    <h2 class="text-2xl font-bold mb-4 text-light-main">🧠 Guided Study Notes: Structural Principles</h2>
+                    <p class="mb-4 text-secondary">These notes cover the fundamentals of design, loads, structural concepts, and construction methods.</p>
+                    
+                    ${renderInteractiveNotesBlock('1. Structural Design Principles', 'Focusing on Limit State Design (LSD) and core considerations.')}
+                        <h3 class="text-xl font-bold mt-2 mb-2 text-blue-400">A. Limit State Design (LSD)</h3>
+                        <p class="text-sm text-light-main">This is the state which, if exceeded, means the structure no longer fulfills its design criteria.</p>
+                        <table class="min-w-full text-sm mt-3 bg-gray-700 rounded-lg overflow-hidden">
+                            <thead>
+                                <tr class="bg-gray-800 text-blue-400">
+                                    <th class="p-2 text-left">Limit State</th>
+                                    <th class="p-2 text-left">What it means</th>
+                                    <th class="p-2 text-left">Design Focus</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-600">
+                                <tr>
+                                    <td class="p-2"><strong>Ultimate Limit State (ULS)</strong></td>
+                                    <td class="p-2">Associated with <strong>collapse</strong> or other forms of <strong>structural failure</strong>.</td>
+                                    <td class="p-2">Safety (Use safety factors to prevent failure).</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2"><strong>Serviceability Limit State (SLS)</strong></td>
+                                    <td class="p-2">The ability to perform adequately for normal use under all expected conditions.</td>
+                                    <td class="p-2">Functionality and Durability (Covers <strong>deflection</strong>, cracking, <strong>vibration</strong>, and <strong>sway</strong>).</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 class="text-xl font-bold mt-4 mb-2 text-blue-400">B. Structural Design Considerations</h3>
+                        <p class="text-sm text-light-main">The final structural design is influenced by several factors, especially the non-engineering ones:</p>
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
-                            <li><strong>Ultimate Limit State (ULS):</strong> Associated with structural <strong>failure</strong>, <strong>collapse</strong>, or loss of stability. Governed by high safety factors.</li>
-                            <li><strong>Serviceability Limit State (SLS):</strong> Governed by non-failure criteria like acceptable <strong>deflection</strong>, <strong>vibration</strong>, <strong>sway</strong> under wind load, ensuring occupant comfort and building function.</li>
-                            <li><strong>Stress vs. Strain:</strong> Stress is the load per area ($P/A$), measuring how hard the material works. Strain is the material's <strong>deformation</strong> (stretch or compression) under that stress.</li>
-                            <li><strong>Strength vs. Stiffness:</strong> <strong>Strength</strong> is the force required to break a material; <strong>Stiffness</strong> is the measure of how much it deforms or bends under load.</li>
-                            <li><strong>Shear:</strong> The tearing effect from unaligned, opposing forces. Maximum shear occurs <strong>near supports</strong> in beams.</li>
+                            <li><strong>Speed of construction</strong> (floor to floor cycles).</li>
+                            <li><strong>Availability of materials</strong> and skilled labour.</li>
+                            <li><strong>Cost of materials</strong> (e.g., global competition for steel).</li>
+                            <li><strong>Designers' preference</strong> (often significant).</li>
+                            <li><strong>Weather</strong> (e.g., steel can be erected in greater extremes).</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Load Types & Beam Reactions', 'Matching loads to foundation and member design.')}
+
+                    ${renderInteractiveNotesBlock('2. Loads and Reactions', 'Understanding load classifications and internal forces.')}
+                        <h3 class="text-xl font-bold mt-2 mb-2 text-blue-400">A. Types of Loads (Vertical)</h3>
+                        <p class="text-sm text-light-main">The building is subjected to loads from occupants, contents, environmental forces (wind, earthquake, ground), and its own self-weight.</p>
+                        <table class="min-w-full text-sm mt-3 bg-gray-700 rounded-lg overflow-hidden">
+                            <thead>
+                                <tr class="bg-gray-800 text-blue-400">
+                                    <th class="p-2 text-left">Load Type</th>
+                                    <th class="p-2 text-left">Definition</th>
+                                    <th class="p-2 text-left">Example</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-600">
+                                <tr>
+                                    <td class="p-2"><strong>Point Load (PL)</strong></td>
+                                    <td class="p-2">A <strong>concentrated load</strong> on a member. Acts at an infinitely small point.</td>
+                                    <td class="p-2">A <strong>column or post</strong> resting on a beam or foundation.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2"><strong>Uniformly Distributed Load (UDL)</strong></td>
+                                    <td class="p-2">A load that is <strong>spread over a certain area</strong> or distance.</td>
+                                    <td class="p-2">A <strong>precast concrete wall</strong> or concrete masonry wall on a foundation.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 class="text-xl font-bold mt-4 mb-2 text-blue-400">B. Structural Concepts (Actions & Reactions)</h3>
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
-                            <li><strong>Point Load (PL):</strong> A concentrated load, typically from a <strong>column</strong> or <strong>post</strong> acting on a foundation (Pad Footing).</li>
-                            <li><strong>Uniformly Distributed Load (UDL):</strong> A load spread evenly over an area, typically from a <strong>load-bearing wall</strong> acting on a foundation (Strip Footing).</li>
-                            <li><strong>Bending Moment:</strong> This force causes the member to bend. In a beam under downward load, the top zone is in <strong>compression</strong>, and the bottom zone is in <strong>tension</strong>. Rebar is placed in the tension zone.</li>
+                            <li><strong>Strength:</strong> The measure of the force needed to <strong>break something</strong> or cause it to fail.</li>
+                            <li><strong>Stiffness:</strong> The measure of how much a material will <strong>deform, bend, or stretch</strong> when loaded.
+                                <p class="text-xs ml-4 mt-1">Note: Engineers must ensure a structure has adequate stiffness <strong>AND</strong> strength.</p>
+                            </li>
+                            <li><strong>Stress:</strong> The load divided by area ($\text{Stress} = \text{Load} / \text{Area}$). It measures how hard the material is working.
+                                <ul class="list-circle list-inside ml-6 text-xs mt-1">
+                                    <li><strong>Tensile Stress</strong> tends to <strong>stretch</strong> an element.</li>
+                                    <li><strong>Compressive Stress</strong> tends to <strong>squeeze</strong> an element.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Strain:</strong> The material's <strong>deformation</strong> per unit of length (compression or extension).</li>
+                            <li><strong>Shear:</strong> The <strong>tearing effect</strong> due to forces acting in opposite directions. Maximum shear occurs <strong>near supports</strong>. A large point load near a support can cause shear failure.</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-bold mt-4 mb-2 text-blue-400">C. Beam Reactions (Horizontal Spanning Members)</h3>
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Deflection:</strong> The degree to which a structural member is <strong>displaced</strong> under load (a distance or an angle).</li>
+                            <li><strong>Bending Moment:</strong> A reaction that causes the member to bend.
+                                <ul class="list-circle list-inside ml-6 text-xs mt-1">
+                                    <li>When bending, the Upper zone is compressed and the Lower zone is stretched (<strong>tension</strong>) around the neutral axis.</li>
+                                    <li>Concrete is strong in compression but weak in tension, so <strong>steel reinforcing is concentrated in the lower (tension) zone</strong> of a concrete beam to make it stronger.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Shear Force:</strong> Occurs when two unaligned, opposing forces are applied.</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Lateral Support Systems', 'Resisting horizontal loads from wind and seismic activity.')}
+                    
+                    ${renderInteractiveNotesBlock('3. Structural Design Methods', 'Bracing systems and key structural components.')}
+                        <h3 class="text-xl font-bold mt-2 mb-2 text-blue-400">A. Bracing Systems (Lateral Support)</h3>
+                        <p class="text-sm text-light-main">The rigidity and strength are achieved by a combination of methods to resist horizontal loads (wind, earthquake, etc.).</p>
+                        <table class="min-w-full text-sm mt-3 bg-gray-700 rounded-lg overflow-hidden">
+                            <thead>
+                                <tr class="bg-gray-800 text-blue-400">
+                                    <th class="p-2 text-left">System</th>
+                                    <th class="p-2 text-left">Key Components/Methods</th>
+                                    <th class="p-2 text-left">Example Structures</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-600">
+                                <tr>
+                                    <td class="p-2"><strong>Concrete Frame</strong></td>
+                                    <td class="p-2"><strong>Shear walls</strong>, <strong>rigid beam/column junctions</strong>, floor plates (braced).</td>
+                                    <td class="p-2">Multi-storey buildings.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2"><strong>Portal Frame</strong></td>
+                                    <td class="p-2">Along the building: <strong>Rigid portal knee joints</strong>. Across the building: Shear walls (precast tilt panels) and <strong>Steel cross bracing in the bays</strong>.</td>
+                                    <td class="p-2">Warehouses, industrial buildings.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2"><strong>Steel Skeleton</strong></td>
+                                    <td class="p-2">Bracing to open bays (K, X, Diagonal bracing), concrete shear walls, concrete floor plates.</td>
+                                    <td class="p-2">Multi-storey steel buildings.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <h3 class="text-xl font-bold mt-4 mb-2 text-blue-400">B. Key Bracing Elements</h3>
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
-                            <li><strong>Shear Walls:</strong> Rigid vertical planes (<strong>concrete, masonry, or braced panels</strong>) that absorb and resist horizontal forces.</li>
-                            <li><strong>Rigid Joints:</strong> Stiff, moment-resisting connections (common in concrete frames) that prevent the frame from distorting or "racking" when subjected to lateral loads.</li>
-                            <li><strong>Bracing:</strong> Diagonal members used in open bays of steel frames: <strong>X-bracing</strong> (full diagonal cross), <strong>K-bracing</strong> (diagonal members forming a 'K' or offset 'K').</li>
+                            <li><strong>Shear Walls:</strong> Act as a form of bracing panel, providing <strong>lateral support</strong> to the building. Often made of precast concrete panels or masonry block.</li>
+                            <li><strong>Rigid Beam/Column Junctions:</strong> Stiff joints that provide frame rigidity and lateral support. If not rigid, the junction acts like a pivot point and the frame distorts.</li>
+                            <li><strong>Structural Core:</strong> An internal structural core (often a concrete shear wall system) provides lateral support, especially in taller structures.</li>
+                        </ul>
+
+                        <h3 class="text-xl font-bold mt-4 mb-2 text-blue-400">C. Structural Materials Comparison</h3>
+                        <p class="text-sm text-light-main">A comparison of common construction materials:</p>
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Steel:</strong> <strong>Advantages:</strong> Immediately strong, high strength-to-weight ratio, faster erection. <strong>Disadvantages:</strong> Quickly deteriorates in fire (requires protection); low joint stiffness limits lateral resistance in seismic areas.</li>
+                            <li><strong>Concrete (Insitu):</strong> <strong>Advantages:</strong> Common first choice due to <strong>inherent fire resistance</strong>. <strong>Disadvantages:</strong> Slower construction (due to formwork/curing); lower strength-to-weight ratio.</li>
+                            <li><strong>Precast Concrete:</strong> <strong>Advantages:</strong> Quickly erected by non-skilled labour; superior surface quality. <strong>Disadvantages:</strong> Heavy (high transport costs); complex connections require attention.</li>
+                            <li><strong>Pre-stressed Concrete:</strong> Uses high-tensile steel stretched and bonded into concrete. Results in less formwork and is <strong>lighter/stronger</strong> (e.g., pre-tensioned floor slabs).</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
                 `,
@@ -343,30 +521,80 @@
             },
             'Concrete Basics': {
                 notes: `
-                    <p class="mb-4 text-secondary">Understanding concrete starts with its composition, its predictable behavior during curing, and its structural performance characteristics.</p>
-                    ${renderInteractiveNotesBlock('Composition, Additives & Mixture', 'The base components and modifications for performance.')}
+                    <h2 class="text-2xl font-bold mb-4 text-light-main">🧠 Guided Study Notes: Concrete Basics</h2>
+                    <p class="mb-4 text-secondary">Here are guided study notes for your exam on Insitu Concrete and its applications, structured for easy memorization.</p>
+                    
+                    ${renderInteractiveNotesBlock('1. Concrete Composition & Mixture (The Recipe) 🥣', 'The 3 basic ingredients, additives, and how mixture affects performance.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
-                            <li><strong>Core Components:</strong> Concrete is a mix of <strong>Cement</strong> (binding agent), <strong>Aggregate</strong> (gravel/sand, $\approx 60\% - 75\%$ total volume), and <strong>Water</strong>.</li>
-                            <li><strong>Water/Cement Ratio:</strong> The single most important factor controlling strength. Lower ratios generally lead to <strong>higher compressive strength</strong>.</li>
-                            <li><strong>Additives (Admixtures):</strong> Substances added to alter workability, cure times (e.g., <strong>retarders</strong> in hot weather), or increase density for improved performance.</li>
-                            <li><strong>Cement Grades:</strong> Different cement types (e.g., General Purpose, High Early Strength) are chosen based on required final strength and construction schedule.</li>
+                            <li><strong>The 3 Basic Ingredients:</strong> <strong>Cement</strong> (the binding agent), <strong>Aggregate</strong> (gravel and sand), and <strong>Water</strong>.</li>
+                            <li><strong>Performance is Key:</strong> The final strength is significantly affected by the **ratio of components and additives**. Too much water = lower strength.</li>
+                            <li><strong>Additives can be used to:</strong> Improve workability, alter curing times (e.g., a <strong>retarder</strong> slows down curing in hot weather to prevent weakening), and increase strength.</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Curing Time & Compressive Strength', 'How strength is achieved and measured in structural elements.')}
+                    ${renderInteractiveNotesBlock('2. Curing, Strength, and Testing (The Time Game) ⏱️', 'Milestones, strength requirements (MPa), and testing methods.')}
+                        <h3 class="text-xl font-bold mt-2 mb-2 text-blue-400">Design Strength Milestones</h3>
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
-                            <li><strong>Design Strength:</strong> Full designated design strength is typically achieved at <strong>28 days</strong>.</li>
-                            <li><strong>Construction Milestone:</strong> $\mathbf{90\%}$ of design strength is reached in approximately <strong>14 days</strong>.</li>
-                            <li><strong>Strength Testing:</strong> Samples are taken (e.g., test cylinders) and crushed to assess <strong>compressive strength</strong> (measured in <strong>MPa</strong>). A <strong>Slump Test</strong> checks consistency/workability on site.</li>
-                            <li><strong>Reinforcing Role:</strong> Concrete is weak in <strong>tension</strong>. <strong>Reinforcing steel</strong> bars (rebar) and mesh are added to carry these tensile forces. Compaction must ensure intimate contact with steel.</li>
+                            <li><strong>7 Days:</strong> Achieves $\mathbf{65\%}$ of total strength.</li>
+                            <li><strong>14 Days:</strong> Achieves $\mathbf{90\%}$ of total strength.</li>
+                            <li><strong>Full Design Strength:</strong> Typically reached at <strong>28 days</strong>.</li>
+                            <li><strong>Construction Speed Trick:</strong> Work can sometimes proceed when concrete has only reached $\mathbf{75\%}$ strength (around 12 days).</li>
+                        </ul>
+                        <h3 class="text-xl font-bold mt-4 mb-2 text-blue-400">Strength Requirements (MPa)</h3>
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Indoor Slabs:</strong> Commonly require $\mathbf{17.5 \text{ MPa}}$.</li>
+                            <li><strong>Structural Elements (General):</strong> Typically require $\mathbf{25–35 \text{ MPa}}$.</li>
+                            <li><strong>Tilt-Up Precast Walls (High Strength):</strong> May require $\mathbf{50 \text{ MPa}}$.</li>
+                            <li><strong>Testing:</strong> Done via crushed <strong>Test Cylinders</strong> and an on-site '<strong>slump' test</strong>.</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Structural Performance & Applications', 'Why concrete is used for durability and protection.')}
+                    ${renderInteractiveNotesBlock('3. Performance & Reinforcing (Protection & Strength)🛡️', 'Why steel is necessary and concrete\'s protective qualities.')}
+                        <h3 class="text-xl font-bold mt-2 mb-2 text-blue-400">Reinforcing (Rebar)</h3>
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
-                            <li><strong>Fire Resistance:</strong> Concrete is non-combustible and dense, providing excellent <strong>Fire Resistance Ratings (FRR)</strong> based on its thickness (e.g., $\mathbf{110 \text{ mm}}$ for $\mathbf{120 \text{ min}}$).</li>
-                            <li><strong>Acoustics:</strong> Its high density makes it excellent for reducing <strong>sound transmission</strong> (high <strong>STC</strong> rating, e.g., STC 55 for $150 \text{ mm}$ wall), ideal for party walls or multi-tenancy buildings.</li>
-                            <li><strong>Weathertightness:</strong> High strength concrete is denser. Improved by water repellent admixtures and relies heavily on excellent <strong>junction design</strong> (flashings, joint detailing).</li>
-                            <li><strong>Applications:</strong> Used for <strong>Insitu Columns</strong> (easier for rigid junctions) and various <strong>Precast</strong> floor panels/walls (faster construction).</li>
+                            <li><strong>The Structural Challenge:</strong> Cured concrete is strong in **compression** (squashing) but <strong>weak in tension</strong> (pulling apart).</li>
+                            <li><strong>The Solution:</strong> <strong>Reinforcing steel (rebar)</strong> is added to carry those <strong>tensile forces</strong>.</li>
+                            <li><strong>Compaction is Vital:</strong> Concrete must be <strong>compacted</strong> carefully to remove **air voids**, which otherwise compromise strength and steel contact.</li>
+                            <li><strong>Types:</strong> Deformed bars (ribbed), plain bars, and welded mesh (common in floor slabs).</li>
                         </ul>
+                        <h3 class="text-xl font-bold mt-4 mb-2 text-blue-400">Concrete Performance</h3>
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Fire Resistance:</strong> Concrete structure is essentially **fire resistant** (unlike steel or timber). Example: Warehouses use precast tilt panels for high fire resistance.</li>
+                            <li><strong>Sound Attenuation:</strong> Excellent due to its density and weight. Performs well for party-walls.</li>
+                            <li><strong>Weathertightness:</strong> Improved by high compaction and **water repellent admixtures**, but relies heavily on good junction design.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('4. Concrete Applications (Insitu vs. Precast)🏗️', 'Matching construction type to requirements.')}
+                        <h3 class="text-xl font-bold mt-2 mb-2 text-blue-400">Type Definitions & Uses</h3>
+                        <table class="min-w-full text-sm mt-3 bg-gray-700 rounded-lg overflow-hidden">
+                            <thead>
+                                <tr class="bg-gray-800 text-blue-400">
+                                    <th class="p-2 text-left">Type</th>
+                                    <th class="p-2 text-left">Definition & Rationale</th>
+                                    <th class="p-2 text-left">Typical Uses</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-600">
+                                <tr>
+                                    <td class="p-2"><strong>Insitu</strong></td>
+                                    <td class="p-2">Pouring and curing concrete on the construction site. Easier to achieve **rigid beam/column junctions**.</td>
+                                    <td class="p-2">Columns and ground floor slabs.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2"><strong>Precast</strong></td>
+                                    <td class="p-2">Elements constructed in a factory and hoisted into place by crane. Rationale is **speed** and economy.</td>
+                                    <td class="p-2">Walls (quicker than insitu), cladding panels, and tilt-up panels.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2"><strong>Pre-stressed</strong></td>
+                                    <td class="p-2">High-tensile steel stretched and bonded in concrete. Makes elements **stronger and smaller**.</td>
+                                    <td class="p-2">Floor panels and beams.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2"><strong>Concrete Masonry</strong></td>
+                                    <td class="p-2">Hollow concrete blocks used for base/infill walls. Requires filling cells with **concrete and reinforcing steel**.</td>
+                                    <td class="p-2">Base walls, retaining walls, infill walls.</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     ${closeInteractiveNotesBlock()}
                 `,
                 mcqs: [
@@ -412,15 +640,16 @@
             },
             'Precast Concrete': {
                 notes: `
+                    <h2 class="text-2xl font-bold mb-4 text-light-main">🧠 Guided Study Notes: Precast and Pre-stressed Concrete</h2>
                     <p class="mb-4 text-secondary">Precast, Pre-stressed, and Post-tensioned concrete offer key advantages over traditional insitu methods in terms of speed, quality, and structural efficiency.</p>
-                    ${renderInteractiveNotesBlock('Precast vs. Pre-stressed vs. Post-tensioned', 'Understanding the critical differences in manufacturing and load application.')}
+                    ${renderInteractiveNotesBlock('1. Precast vs. Pre-stressed vs. Post-tensioned', 'Understanding the critical differences in manufacturing and load application.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Precast:</strong> Elements fabricated <strong>off-site</strong> (or in a casting bed on-site), transported, and lifted into place. Uses <strong>traditional reinforcement</strong> (rebar). Examples: <strong>Wall Panels, Columns, Stair Flights</strong>.</li>
                             <li><strong>Pre-stressed (Pre-tensioned):</strong> Fabricated in a factory. Steel <strong>tendons are tensioned</strong> *before* concrete is poured. Tension is released *after* curing, putting the member into <strong>compression</strong>. Examples: <strong>Floor Planks (Hollowcore, Double Tees), Shell Beams</strong>.</li>
                             <li><strong>Post-tensioned:</strong> Concrete is cast <strong>in situ</strong> (or very large components precast). Steel <strong>tendons are tensioned</strong> *after* the concrete has achieved sufficient strength. Used mostly for large <strong>slab-on-ground</strong> or bridge components to span great distances.</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Factory Benefits & Element Types', 'Why prefabrication leads to higher quality and efficiency.')}
+                    ${renderInteractiveNotesBlock('2. Factory Benefits & Element Types', 'Why prefabrication leads to higher quality and efficiency.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Advantages:</strong> Higher quality finish and <strong>dimensional accuracy</strong> (controlled environment), <strong>no wait time for curing</strong> on site, and <strong>lighter/stronger</strong> elements (especially prestressed).</li>
                             <li><strong>Hollowcore:</strong> Pre-stressed floor panels with continuous holes running their length to <strong>reduce self-weight</strong>. Strength comes from bottom tendons and vertical ribs.</li>
@@ -428,7 +657,7 @@
                             <li><strong>Insitu Topping:</strong> Often poured over precast floor units (like shell beams or hollowcore) to provide a level surface and create <strong>structural rigidity</strong> by locking all elements together.</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Connections & Details', 'Ensuring safe lifting, assembly, and weather resistance.')}
+                    ${renderInteractiveNotesBlock('3. Connections & Details', 'Ensuring safe lifting, assembly, and weather resistance.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Lifting:</strong> Achieved using <strong>lifting eyes</strong> (recessed metal lugs) specifically located for balanced lifting and tilting.</li>
                             <li><strong>Assembly:</strong> Connections often use embedded <strong>steel plates</strong> and <strong>brackets</strong> for welding or bolting to the main structural frame (steel columns or insitu concrete).</li>
@@ -480,15 +709,16 @@
             },
             'Structural Steel': {
                 notes: `
+                    <h2 class="text-2xl font-bold mb-4 text-light-main">🧠 Guided Study Notes: Structural Steel</h2>
                     <p class="mb-4 text-secondary">Structural steel is the backbone of many commercial projects. Learn its advantages, limitations, and how to protect it.</p>
-                    ${renderInteractiveNotesBlock('Advantages & Disadvantages of Steel', 'Why choose steel? What are its key weaknesses?')}
+                    ${renderInteractiveNotesBlock('1. Advantages & Disadvantages of Steel', 'Why choose steel? What are its key weaknesses?')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Advantages:</strong> <strong>Faster to erect</strong> than concrete, <strong>very consistent high strength</strong>, <strong>high strength-to-weight ratio</strong>, and is <strong>100% recyclable</strong>.</li>
                             <li><strong>Disadvantages:</strong> High embodied energy, requires protective coatings for <strong>corrosion</strong> and <strong>fire resistance</strong>, transport of large components can be difficult.</li>
                             <li><strong>Fire Vulnerability:</strong> Steel loses <strong>50% of its strength</strong> when heated to <strong>$\mathbf{650^\circ C}$</strong> (it won't melt but softens dramatically).</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Steel Profiles & Fabrication', 'Understanding hot- vs. cold-rolled processes and common shapes.')}
+                    ${renderInteractiveNotesBlock('2. Steel Profiles & Fabrication', 'Understanding hot- vs. cold-rolled processes and common shapes.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Hot-Rolled Steel (HRS):</strong> Formed at high temperatures. Used for primary structural elements like <strong>Universal Beams (UB)</strong>, <strong>Universal Columns (UC)</strong>, and <strong>Parallel Flange Channels (PFC)</strong>.</li>
                             <li><strong>Cold-Rolled Steel (CRS):</strong> Formed at ambient temperatures from flat steel. Used for light-weight, secondary members such as <strong>purlins</strong> (roof) and <strong>girts</strong> (wall cladding support).</li>
@@ -496,7 +726,7 @@
                             <li><strong>Girt:</strong> A horizontal support member, typically CRS, fixed between columns to support <strong>wall cladding</strong>.</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Protection & Connections (Fabrication)', 'How steel is protected and joined on-site.')}
+                    ${renderInteractiveNotesBlock('3. Protection & Connections (Fabrication)', 'How steel is protected and joined on-site.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Corrosion Protection:</strong> Required for durability. Methods include <strong>Hot-Dip Galvanizing</strong> (molten zinc bath) or specialized <strong>High Performance Paint Systems</strong>.</li>
                             <li><strong>Fire Protection:</strong> Uses <strong>Insulation</strong> (boards, sprayed foam) or <strong>Intumescent Paint</strong> (which foams up into an insulating char when exposed to fire).</li>
@@ -551,15 +781,16 @@
             },
             'Shallow Foundations': {
                 notes: `
+                    <h2 class="text-2xl font-bold mb-4 text-light-main">🧠 Guided Study Notes: Shallow Foundations</h2>
                     <p class="mb-4 text-secondary">Shallow foundations transmit building loads to soil strata near ground level, suitable when the soil's bearing capacity is good near the surface.</p>
-                    ${renderInteractiveNotesBlock('Function & Essential Principles', 'The loads, their distribution, and protection.')}
+                    ${renderInteractiveNotesBlock('1. Function & Essential Principles', 'The loads, their distribution, and protection.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Function:</strong> Transmit <strong>Dead Loads</strong> (building mass) and <strong>Live Loads</strong> (wind, EQ, occupants) safely to the <strong>solid-bearing strata</strong>.</li>
                             <li><strong>Load Distribution:</strong> Must distribute loads <strong>uniformly</strong> to minimize differential settlement.</li>
                             <li><strong>Durability:</strong> Foundations are typically <strong>mass or reinforced concrete</strong>. Reinforcing steel must have specified minimum <strong>concrete cover</strong> to prevent corrosion (rusting requires oxygen and moisture).</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Types of Shallow Foundations', 'Matching design to the loads and wall/column requirements.')}
+                    ${renderInteractiveNotesBlock('2. Types of Shallow Foundations', 'Matching design to the loads and wall/column requirements.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Strip Footing:</strong> Placed under <strong>continuous, load-bearing walls</strong>. Designed to handle <strong>UDL</strong> (Uniformly Distributed Loads).</li>
                             <li><strong>Isolated Pad Foundation:</strong> Supports individual <strong>columns</strong>. Designed to handle <strong>PL</strong> (Point Loads). Thickness depends on column loading and soil bearing pressure.</li>
@@ -567,7 +798,7 @@
                             <li><strong>Combined Foundations:</strong> Systems like the <strong>Cantilever Foundation</strong> are used when a column is obstructed (e.g., near a boundary or sewer line) and links pads via a tie beam.</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Settlement & Failure Modes', 'Understanding structural movement and causes of distress.')}
+                    ${renderInteractiveNotesBlock('3. Settlement & Failure Modes', 'Understanding structural movement and causes of distress.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Settlement:</strong> The gradual consolidation and compaction of soil under load. It is expected and is part of the design calculation.</li>
                             <li><strong>Differential Settlement:</strong> <strong>Uneven</strong> settlement between different parts of the structure, causing severe stress, cracking, and potential building failure. This is the primary risk to avoid.</li>
@@ -615,8 +846,9 @@
             },
             'Deep Foundations': {
                 notes: `
+                    <h2 class="text-2xl font-bold mb-4 text-light-main">🧠 Guided Study Notes: Deep Foundations</h2>
                     <p class="mb-4 text-secondary">Piles are necessary when firm soil is too deep for conventional footings. Selection depends on the soil, loads, and urban constraints.</p>
-                    ${renderInteractiveNotesBlock('Pile Classification & Load Transfer', 'The difference in installation methods and how they carry load.')}
+                    ${renderInteractiveNotesBlock('1. Pile Classification & Load Transfer', 'The difference in installation methods and how they carry load.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>When to Use:</strong> When solid bearing strata is deeper than <strong>3.5 - 4.5 meters</strong>, or when building over <strong>soft, compressible</strong> soils or water.</li>
                             <li><strong>Driven Piles (Displacement):</strong> Pre-formed (timber, steel, precast concrete) and driven/vibrated. They transfer load primarily through <strong>Friction</strong> along the shaft. Disadvantages: <strong>Noise and Vibration</strong> (disruptive).</li>
@@ -624,7 +856,7 @@
                             <li><strong>Pile Cap:</strong> The structural element that connects the pile(s) to the column above, distributing the load and tying the pile cluster together.</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Basement Retaining Walls', 'Structures that hold back earth and water pressure.')}
+                    ${renderInteractiveNotesBlock('2. Basement Retaining Walls', 'Structures that hold back earth and water pressure.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Function:</strong> Resist the <strong>lateral thrust</strong> of soil, sub-soil <strong>water pressure</strong>, and any superimposed loads (surcharge).</li>
                             <li><strong>Piling Walls:</strong> Walls formed by interlocking piles, often used as permanent basement walls:
@@ -673,8 +905,9 @@
             },
             'Formwork & Falsework': {
                 notes: `
+                    <h2 class="text-2xl font-bold mb-4 text-light-main">🧠 Guided Study Notes: Formwork and Falsework</h2>
                     <p class="mb-4 text-secondary">Formwork and Falsework are critical temporary works for concrete construction. Safety is paramount due to the weight of wet concrete.</p>
-                    ${renderInteractiveNotesBlock('Definitions & Concrete Pressure', 'Clarifying the two essential components of temporary concrete works.')}
+                    ${renderInteractiveNotesBlock('1. Definitions & Concrete Pressure', 'Clarifying the two essential components of temporary concrete works.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Formwork:</strong> The <strong>temporary mould</strong> used to contain and shape wet, fluid concrete.</li>
                             <li><strong>Falsework:</strong> The <strong>temporary support structure</strong> (propping, bracing) carrying the weight of the formwork, wet concrete, and equipment.</li>
@@ -682,7 +915,7 @@
                             <li><strong>Grout Loss:</strong> Joints must be tight to prevent <strong>grout loss</strong> (loss of cement fines and sand), which compromises the concrete's surface finish and strength.</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Formwork Components & Assembly', 'Ensuring stability and dimensional accuracy.')}
+                    ${renderInteractiveNotesBlock('2. Formwork Components & Assembly', 'Ensuring stability and dimensional accuracy.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Kickers:</strong> Small blocks secured to the slab/ground that prevent the bottom of vertical column/wall formwork from shifting outwards during the pour.</li>
                             <li><strong>Ties/Thru Rods:</strong> Steel elements running through the concrete cavity that secure opposing form faces against the <strong>bursting pressure</strong>.</li>
@@ -690,7 +923,7 @@
                             <li><strong>Form Face:</strong> The material in direct contact with the concrete, responsible for the required <strong>concrete finish</strong> (e.g., plywood, timber look).</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Advanced Techniques & Removal', 'Methods for high-speed or complex construction.')}
+                    ${renderInteractiveNotesBlock('3. Advanced Techniques & Removal', 'Methods for high-speed or complex construction.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Climbing/Jump Formwork:</strong> A self-climbing system used for continuous pours of tall vertical elements like elevator cores (e.g., the <strong>Auckland Sky Tower core</strong>).</li>
                             <li><strong>Stripping (Striking):</strong> The process of safely removing formwork, which can only be done once the concrete has reached the specified <strong>minimum design strength</strong> (e.g., for self-support).</li>
@@ -739,15 +972,16 @@
             },
             'Excavation & Shoring': {
                 notes: `
+                    <h2 class="text-2xl font-bold mb-4 text-light-main">🧠 Guided Study Notes: Excavation and Shoring</h2>
                     <p class="mb-4 text-secondary">Excavation and shoring address removing soil and temporarily supporting the remaining ground to ensure site safety.</p>
-                    ${renderInteractiveNotesBlock('Excavation Types & Preparation', 'Understanding the pre-work requirements and different dig types.')}
+                    ${renderInteractiveNotesBlock('1. Excavation Types & Preparation', 'Understanding the pre-work requirements and different dig types.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Excavation Types:</strong> <strong>Trench</strong> ($W < D$, long/narrow for services/footings), <strong>Open</strong> ($W > D$, wide for basements/spread foundations), <strong>Shaft/Drive</strong> (deep vertical pit or horizontal tunnel).</li>
                             <li><strong>Planning:</strong> Requires a <strong>Geotechnical Report</strong> (to determine soil properties, groundwater, and bearing capacity) and identification/location of all existing <strong>utility services</strong>.</li>
                             <li><strong>Dewatering:</strong> Essential process for removing surface water and <strong>groundwater</strong> (via <strong>sumps and pumps</strong>) to prevent soil instability and trench collapse.</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Hazards, Surcharge, & Ground Control', 'Methods to prevent catastrophic wall/face collapse and manage external loads.')}
+                    ${renderInteractiveNotesBlock('2. Hazards, Surcharge, & Ground Control', 'Methods to prevent catastrophic wall/face collapse and manage external loads.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Surcharge Loads:</strong> <strong>Additional loads</strong> (vehicles, stored spoil, adjacent buildings) that increase lateral pressure on the excavation face. Must be kept back from the edge (e.g., <strong>$\mathbf{600 \text{ mm}}$ minimum setback</strong>).</li>
                             <li><strong>Underpinning:</strong> The specific process of <strong>strengthening an adjacent building's existing foundation</strong> when excavating below its footing level.</li>
@@ -760,7 +994,7 @@
                             </li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Shoring Systems & Components', 'Temporary and permanent solutions for deep support.')}
+                    ${renderInteractiveNotesBlock('3. Shoring Systems & Components', 'Temporary and permanent solutions for deep support.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Temporary Shoring:</strong> <strong>Dead Shores</strong> (vertical props), <strong>Raking Shores</strong> (inclined props), <strong>Flying Shores / Cross-lot Bracing</strong> (horizontal struts).</li>
                             <li><strong>Tiebacks:</strong> Rods anchored deep into the soil *behind* the shoring wall, tensioned to hold the wall face back without needing internal bracing across the excavation.</li>
@@ -810,8 +1044,9 @@
             },
             'Scaffolding & Safety': {
                 notes: `
+                    <h2 class="text-2xl font-bold mb-4 text-light-main">🧠 Guided Study Notes: Scaffolding and Site Safety</h2>
                     <p class="mb-4 text-secondary">Site safety, especially regarding working at height (scaffolding) and public protection (hoardings), is governed by strict temporary works regulations.</p>
-                    ${renderInteractiveNotesBlock('Scaffolding Fundamentals & Fall Protection', 'Focus on fall hazards and inspection requirements.')}
+                    ${renderInteractiveNotesBlock('1. Scaffolding Fundamentals & Fall Protection', 'Focus on fall hazards and inspection requirements.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Primary Hazard:</strong> <strong>Falls</strong> are the cause of most serious injury and death in the NZ construction industry.</li>
                             <li><strong>Scaffold Definition:</strong> Any temporary structure for the support or protection of <strong>workers</strong> or <strong>materials</strong>.</li>
@@ -819,7 +1054,7 @@
                             <li><strong>Compliance:</strong> Scaffolds over $\mathbf{5 \text{ m}}$ require a <strong>Scaffold Register</strong> and must be inspected weekly by a certified scaffolder or competent person.</li>
                         </ul>
                     ${closeInteractiveNotesBlock()}
-                    ${renderInteractiveNotesBlock('Hoardings, Barriers, & Public Access', 'How construction zones are secured and managed in public spaces.')}
+                    ${renderInteractiveNotesBlock('2. Hoardings, Barriers, & Public Access', 'How construction zones are secured and managed in public spaces.')}
                         <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
                             <li><strong>Hoarding (Site Fence):</strong> Function is to prevent <strong>unauthorized public access</strong>, provide <strong>security</strong>, and contain <strong>noise/dust</strong>.</li>
                             <li><strong>Minimum Height:</strong> Must extend at least <strong>$\mathbf{2.0 \text{ m}}$</strong> in height on the side accessible to the public (NZBC F5/AS1).</li>
@@ -1060,7 +1295,9 @@
         function renderFlashcardsSection(flashcards) {
             const currentCardIndex = document.getElementById('card-index-display')?.dataset.index || 0;
             const card = flashcards[currentCardIndex % flashcards.length];
-            const isFlipped = document.getElementById('flashcard-body')?.classList.contains('flipped');
+            // Check if the card is currently flipped using the DOM element
+            const cardBodyElement = document.getElementById('flashcard-body');
+            const isFlipped = cardBodyElement ? cardBodyElement.classList.contains('flipped') : false;
             const buttonText = isFlipped ? 'Flip to Front' : 'Flip to Back';
 
             let html = `<h2 class="text-2xl font-bold mb-6 text-light-main">Flashcards</h2>`;
