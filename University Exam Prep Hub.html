@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech 3 Construction Exam Prep Hub - Dark Theme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        /* --- DARK THEME CORE STYLES --- */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #1a1a1a; /* Very Dark Gray Background */
+            color: #e5e7eb; /* Light Text */
+        }
+        .main-bg { 
+            background-color: #1f2937; /* Dark Blue/Gray for Main Content */
+            color: #e5e7eb;
+        }
+        .content-bg {
+            background-color: #2d3748; /* Slightly lighter surface for sections */
+            color: #e5e7eb;
+        }
+        .text-light-main { color: #f3f4f6; } /* Used for primary study text */
+        .text-secondary { color: #a0a0a0; }
+
+        /* --- NAVIGATION/SIDEBAR --- */
+        .sidebar { background-color: #111827; color: white; transition: width 0.3s; }
+        .nav-link.active { background-color: #2d3748; border-left: 4px solid #3b82f6; }
+        .module-item { cursor: pointer; transition: background-color 0.2s; padding: 10px; border-radius: 6px; }
+        .module-item:hover { background-color: #2d3748; }
+        .section-tab { padding: 10px 15px; cursor: pointer; border-bottom: 3px solid transparent; transition: border-color 0.3s, color 0.3s; }
+        .section-tab.active { border-bottom-color: #3b82f6; color: #3b82f6; font-weight: 600; }
+
+        /* --- FLASHCARDS --- */
+        .card-container { 
+            perspective: 1000px; 
+            min-height: 500px; 
+            width: 100%; 
+        } 
+        .flashcard { 
+            transform-style: preserve-3d; 
+            transition: transform 0.6s; 
+            cursor: pointer; 
+            position: relative; 
+            border-radius: 16px; 
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.7); 
+            height: 100%; 
+            box-sizing: border-box; 
+        } 
+        .flashcard.flipped { transform: rotateY(180deg); }
+        
+        .front, .back { 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            backface-visibility: hidden; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            padding: 40px; 
+            text-align: center; 
+            border-radius: 16px; 
+            font-size: 1.1rem; 
+            word-wrap: break-word; 
+            box-sizing: border-box; 
+            overflow: hidden; 
+        }
+        
+        .front { 
+            background-color: #374151; 
+            color: #e5e7eb; 
+            border: 3px solid #60a5fa; 
+            font-size: 1.5rem; 
+            text-align: center;
+        }
+        
+        .back { 
+            background-color: #3b82f6; 
+            color: white; 
+            transform: rotateY(180deg); 
+            padding: 40px; 
+            line-height: 1.6;
+            align-items: flex-start;
+        }
+        
+        /* Definitive Fix for Text Overflow on Back of Card */
+        .back span {
+            display: block; 
+            width: 100%; 
+            /* Added margin to push content away from the padding edge */
+            padding: 0 15px; 
+            text-align: left;
+            box-sizing: border-box;
+            word-wrap: break-word;
+            overflow-wrap: break-word; 
+        }
+
+
+        /* --- MIND MAP --- */
+        .mind-map-node { 
+            background-color: #374151; 
+            border: 2px solid #3b82f6; 
+            color: #e5e7eb; 
+            border-radius: 9999px; 
+            padding: 10px 20px; 
+            text-align: center; 
+            margin: 10px; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3); 
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s; 
+            cursor: pointer; 
+            position: relative;
+        }
+        .mind-map-node:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.7); 
+        }
+        .mind-map-node.active { 
+            background-color: #3b82f6; 
+            color: white; 
+            border-color: #ffffff;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 1);
+        }
+
+        /* Core Mind Map Container Styling for Flow */
+        .mind-map-container {
+            overflow-x: auto; /* Allow horizontal scroll for wide maps */
+            padding-bottom: 20px; /* Space for scrollbar and bottom content */
+        }
+        .mind-map-branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            margin-top: 20px;
+        }
+        .mind-map-children {
+            display: flex;
+            justify-content: center;
+            padding-top: 25px; /* Space for horizontal connector line */
+            position: relative;
+            width: 100%;
+        }
+        
+        /* Horizontal Connection Line */
+        .mind-map-children::before {
+            content: '';
+            position: absolute;
+            top: 15px; /* Position above children */
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #4b5563;
+        }
+
+        /* Vertical Connection Lines to Nodes */
+        .mind-map-branch .mind-map-node::before {
+            content: '';
+            position: absolute;
+            top: -15px; /* Connects to the horizontal line */
+            left: 50%;
+            width: 2px;
+            height: 15px;
+            background-color: #4b5563;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        .mind-map-branch.depth-0 .mind-map-node::before {
+            /* Hide the connector for the absolute root node */
+            display: none; 
+        }
+
+
+        /* --- INTERACTIVE LEARNING (Collapsible) --- */
+        .collapsible-header { 
+            background-color: #374151; /* Dark header color */
+            border-color: #4b5563;
+            transition: background-color 0.2s, color 0.2s; 
+        }
+        .collapsible-header:hover { 
+            background-color: #4b5563; 
+        }
+        .collapsible-content {
+            background-color: #1f2937; /* Very dark content background */
+            transition: max-height 0.3s ease-out; 
+            overflow: hidden;
+        }
+        .collapsible-content.expanded {
+            max-height: 2000px; /* Increased arbitrary value for long notes */
+        }
+    </style>
+    <script>
+        // --- DATA STRUCTURES (Simulated Database/Content Store) ---
+        const moduleFiles = {
+            'Performance Requirements': '01 TECH 3_PERF REQS_2025  Rev 1 (1).pdf',
+            'Structural Principles': 'TECH 3_STRUCTURES  3 Structural Principles 2025 (1).pdf',
+            'Concrete Basics': 'TECH 3 Lesson 5 Structures 3 CONCRETE BASICS Lima Tuvalu 2024 (1).pdf',
+            'Precast Concrete': 'TECH 3 PRECAST CONC 2025 Rev o (2).pdf',
+            'Structural Steel': 'TECH 3 STRUCTURAL STEEL 2025 R1 (1).pdf',
+            'Shallow Foundations': 'TECH 3 SHALLOW FOUNDATIONS 2025 (3).pdf',
+            'Deep Foundations': 'TECH 3_DEEP FOUNDATIONS Oct 2025 (2).pdf',
+            'Formwork & Falsework': 'TECH 3_TEMP WORKS 1 - FORMWORK-FALSEWORK_2025 Talanoa (1).pdf',
+            'Excavation & Shoring': 'TECH 3_EXCAVATION-SHORING_2025 Talanoa 9 (1).pdf',
+            'Scaffolding & Safety': 'Recaputure from Network Diagrams (2025)_Last Session (1).pdf'
+        };
+
+        const moduleData = {
+            'Performance Requirements': {
+                notes: `
+                    <p class="mb-4 text-secondary">Performance requirements are set to ensure a building meets fundamental criteria like safety, stability, and function, especially under extreme conditions.</p>
+                    ${renderInteractiveNotesBlock('Building Standards & Design Criteria', 'The framework for design and construction quality.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Structural Integrity:</strong> The critical ability of the structure to <strong>hold together without breaking or deforming excessively</strong> under load.</li>
+                            <li><strong>Building Act 2004:</strong> Sets performance standards ensuring <strong>safety</strong>, <strong>health</strong>, <strong>escape</strong> (fire), and promotion of sustainable development.</li>
+                            <li><strong>Core Criteria:</strong> Performance is judged on: <strong>Structural Integrity</strong> (stability, efficiency), <strong>Exterior Envelope</strong> (filter/weathertightness), and <strong>Building Services</strong> (functionality).</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Complexity Drivers: Scale & Solutions', 'Why complex engineering is required for large buildings.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Vertical Scale:</strong> Tall buildings (over $\mathbf{100 \text{ m}}$) are highly sensitive to dynamic loads from <strong>wind</strong> and <strong>earthquake</strong> forces.</li>
+                            <li><strong>Horizontal Scale:</strong> Large spans (e.g., warehouses, stadia) require special members like <strong>trusses, castellated beams</strong>, or <strong>space frames</strong> to carry long-span loads efficiently.</li>
+                            <li><strong>Specific Engineering Design (SED):</strong> Due to the complexity and high risk associated with commercial scale, most structural solutions require <strong>Specific Engineering Design</strong> by a professional engineer, rather than simple code compliance.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                `,
+                mcqs: [
+                    { q: "What is the definition of Structural Integrity?", a: ["The ability of the structure to remain visually appealing", "The ability of the building to be built quickly", "The ability to resist lateral wind loads only", "The ability to hold together without breaking or deforming excessively"], ans: "The ability to hold together without breaking or deforming excessively" },
+                    { q: "Which act sets performance standards ensuring safety and health in NZ buildings?", a: ["Health and Safety at Work Act 2015", "NZ Building Code B1", "Building Act 2004", "Resource Management Act 1991"], ans: "Building Act 2004" },
+                    { q: "Buildings exceeding which height are considered highly sensitive to wind and seismic stresses?", a: ["50m", "75m", "100m", "150m"], ans: "100m" },
+                    { q: "What design concept replaces traditional methods for large commercial structures?", a: ["Standard Code Compliance", "Specific Engineering Design (SED)", "Prescriptive Design", "Basic Timber Framing"], ans: "Specific Engineering Design (SED)" }
+                ],
+                filbs: [
+                    { text: "The primary structural goal of Performance Requirements is achieving Structural _.", ans: "Integrity" },
+                    { text: "Tall buildings are highly sensitive to loads from wind and _ forces.", ans: "earthquake, seismic" },
+                    { text: "Performance evaluation often considers the overall functionality of the _ systems.", ans: "building service" }
+                ],
+                flashcards: [
+                    { front: "Explain ULS (Ultimate Limit State).", back: "ULS addresses structural <strong>collapse</strong> or <strong>failure</strong>. It ensures the building has adequate strength against factored loads (Dead, Live, Wind, EQ) to prevent breaking or instability." },
+                    { front: "Explain SLS (Serviceability Limit State).", back: "SLS ensures the building remains fit for normal use. It checks for acceptable limits regarding <strong>deflection</strong>, <strong>vibration</strong>, and excessive <strong>sway</strong> that could affect occupant comfort or cladding integrity." },
+                    { front: "What drives the need for Specific Engineering Design (SED) in large buildings?", back: "Increased <strong>Vertical Scale</strong> (over 100m) makes structures highly sensitive to dynamic loads (Wind/EQ). Also, complex <strong>Horizontal Spans</strong> require custom members like trusses and castellated beams." },
+                    { front: "What are the core performance criteria used to evaluate complex buildings?", back: "Primary criteria include: <strong>Structural Integrity</strong> (stability/efficiency), <strong>Exterior Envelope</strong> (weathertightness/filter function), and efficient <strong>Building Services</strong>." }
+                ],
+                mindmap: {
+                    name: "Performance Requirements",
+                    children: [
+                        { name: "Design Standards", children: [
+                            { name: "NZ Building Code B1 (Structure)" },
+                            { name: "Building Act 2004" }
+                        ]},
+                        { name: "Complexity Drivers", children: [
+                            { name: "Vertical Scale (>100m)" },
+                            { name: "Horizontal Scale (Long Spans)" }
+                        ]},
+                        { name: "Structural Goals", children: [
+                            { name: "Integrity (Stability)" },
+                            { name: "Serviceability (Function)" }
+                        ]}
+                    ]
+                }
+            },
+            'Structural Principles': {
+                notes: `
+                    <p class="mb-4 text-secondary">Structural Principles are the foundation of construction technology. Focus on how forces translate into stress, and how systems ensure stability (Lateral Support & Limit State Design).</p>
+                    ${renderInteractiveNotesBlock('Limit State Design (LSD) & Structural Concepts', 'Understanding ULS, SLS, and the forces acting on members.')}
+                        <p class="text-sm space-y-2 text-light-main">LSD is the standard for modern design, ensuring the structure operates within acceptable limits.</p>
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Ultimate Limit State (ULS):</strong> Associated with structural <strong>failure</strong>, <strong>collapse</strong>, or loss of stability. Governed by high safety factors.</li>
+                            <li><strong>Serviceability Limit State (SLS):</strong> Governed by non-failure criteria like acceptable <strong>deflection</strong>, <strong>vibration</strong>, <strong>sway</strong> under wind load, ensuring occupant comfort and building function.</li>
+                            <li><strong>Stress vs. Strain:</strong> Stress is the load per area ($P/A$), measuring how hard the material works. Strain is the material's <strong>deformation</strong> (stretch or compression) under that stress.</li>
+                            <li><strong>Strength vs. Stiffness:</strong> <strong>Strength</strong> is the force required to break a material; <strong>Stiffness</strong> is the measure of how much it deforms or bends under load.</li>
+                            <li><strong>Shear:</strong> The tearing effect from unaligned, opposing forces. Maximum shear occurs <strong>near supports</strong> in beams.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Load Types & Beam Reactions', 'Matching loads to foundation and member design.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Point Load (PL):</strong> A concentrated load, typically from a <strong>column</strong> or <strong>post</strong> acting on a foundation (Pad Footing).</li>
+                            <li><strong>Uniformly Distributed Load (UDL):</strong> A load spread evenly over an area, typically from a <strong>load-bearing wall</strong> acting on a foundation (Strip Footing).</li>
+                            <li><strong>Bending Moment:</strong> This force causes the member to bend. In a beam under downward load, the top zone is in <strong>compression</strong>, and the bottom zone is in <strong>tension</strong>. Rebar is placed in the tension zone.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Lateral Support Systems', 'Resisting horizontal loads from wind and seismic activity.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Shear Walls:</strong> Rigid vertical planes (<strong>concrete, masonry, or braced panels</strong>) that absorb and resist horizontal forces.</li>
+                            <li><strong>Rigid Joints:</strong> Stiff, moment-resisting connections (common in concrete frames) that prevent the frame from distorting or "racking" when subjected to lateral loads.</li>
+                            <li><strong>Bracing:</strong> Diagonal members used in open bays of steel frames: <strong>X-bracing</strong> (full diagonal cross), <strong>K-bracing</strong> (diagonal members forming a 'K' or offset 'K').</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                `,
+                mcqs: [
+                    { q: "What is the primary function of a shear wall?", a: ["Provide lateral support to the building", "Support gravity loads only", "Define internal room layouts", "Reduce construction time"], ans: "Provide lateral support to the building" },
+                    { q: "Which type of load is typically produced by a single column acting on a slab?", a: ["Uniformly Distributed Load (UDL)", "Point Load (PL)", "Bending Moment Load", "Shear Load"], ans: "Point Load (PL)" },
+                    { q: "Which Limit State Design addresses permissible deflection and vibration?", a: ["Ultimate Limit State (ULS)", "Racking Limit State", "Torsion Limit State", "Serviceability Limit State (SLS)"], ans: "Serviceability Limit State (SLS)" },
+                    { q: "Where does maximum shear typically occur in a horizontal beam?", a: ["At mid-span", "Near the supports", "At the neutral axis", "Where deflection is zero"], ans: "Near the supports" },
+                    { q: "What is the common term for a structural failure associated with collapse?", a: ["Serviceability Limit State", "Bending Moment Failure", "Ultimate Limit State", "Torsion Limit State"], ans: "Ultimate Limit State" },
+                    { q: "What structural element is designed to carry tensile forces in a concrete beam?", a: ["Concrete in the compression zone", "Aggregate filler", "Reinforcing steel", "Formwork"], ans: "Reinforcing steel" },
+                    { q: "Which element best describes stiffness in a structural member?", a: ["The maximum load it can bear before failure", "The amount of deformation or deflection under load", "The ratio of stress to area", "The tearing effect of opposing forces"], ans: "The amount of deformation or deflection under load" },
+                    { q: "A concrete column and beam system relies on what kind of joint for lateral stability?", a: ["Pin Joint", "Roller Joint", "Shear Joint", "Rigid Joint"], ans: "Rigid Joint" }
+                ],
+                filbs: [
+                    { text: "The phenomenon where soil fails by tearing past surrounding soil is called _.", ans: "shear" },
+                    { text: "A load spread evenly over a distance is known as a _.", ans: "uniformly distributed load" },
+                    { text: "The degree to which a structural member is displaced under load is called _.", ans: "deflection" },
+                    { text: "A measure of how much a material will deform or stretch when loaded is its _.", ans: "stiffness" },
+                    { text: "In a horizontal beam under load, the upper zone is subjected to _.", ans: "compression" },
+                    { text: "The load caused by the building's own mass and fixed equipment is classified as a _ load.", ans: "dead" },
+                    { text: "Bending Moment is the tendency of a force to cause _ around an axis.", ans: "rotation" }
+                ],
+                flashcards: [
+                    { front: "Differentiate between Strength and Stiffness.", back: "<strong>Strength</strong> is the measure of force needed to <strong>break</strong> a material. <strong>Stiffness</strong> is the measure of how much a material will <strong>deform or bend</strong> (deflect) when a load is applied." },
+                    { front: "What is Shear force and where is it maximized in a beam?", back: "Shear is the vertical <strong>tearing effect</strong> from opposing, unaligned forces. It is maximized closest to the <strong>supports</strong> of a beam, especially under point loads." },
+                    { front: "Where are rebar and tension concentrated in a horizontal beam?", back: "In a downward loaded beam, the top is in compression, and the bottom is in <strong>tension</strong>. Therefore, <strong>reinforcing steel</strong> (rebar) is concentrated in the <strong>bottom (tension) zone</strong> to carry the pulling-apart forces." },
+                    { front: "What are two primary components of a lateral support system?", back: "Lateral support resists horizontal forces (Wind/EQ) using: 1. <strong>Shear Walls</strong> (rigid vertical planes); and 2. <strong>Rigid/Moment Joints</strong> (stiff connections between columns and beams)." }
+                ],
+                mindmap: {
+                    name: "Structural Principles",
+                    children: [
+                        { name: "Loads", children: [
+                            { name: "Dead Load" },
+                            { name: "Live Load (Wind/EQ)" },
+                            { name: "Point Load (PL)" },
+                            { name: "Uniformly Distributed Load (UDL)" }
+                        ]},
+                        { name: "Design Concepts", children: [
+                            { name: "Limit State Design", children: [
+                                { name: "ULS (Collapse)" },
+                                { name: "SLS (Serviceability)" }
+                            ]},
+                            { name: "Lateral Support", children: [
+                                { name: "Shear Walls" },
+                                { name: "Rigid Joints (Moment)" },
+                                { name: "Braced Bays (X, K)" }
+                            ]}
+                        ]},
+                        { name: "Member Action", children: [
+                            { name: "Stress/Strain" },
+                            { name: "Compression/Tension (Bending)" },
+                            { name: "Shear (Near Supports)" }
+                        ]}
+                    ]
+                }
+            },
+            'Concrete Basics': {
+                notes: `
+                    <p class="mb-4 text-secondary">Understanding concrete starts with its composition, its predictable behavior during curing, and its structural performance characteristics.</p>
+                    ${renderInteractiveNotesBlock('Composition, Additives & Mixture', 'The base components and modifications for performance.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Core Components:</strong> Concrete is a mix of <strong>Cement</strong> (binding agent), <strong>Aggregate</strong> (gravel/sand, $\approx 60\% - 75\%$ total volume), and <strong>Water</strong>.</li>
+                            <li><strong>Water/Cement Ratio:</strong> The single most important factor controlling strength. Lower ratios generally lead to <strong>higher compressive strength</strong>.</li>
+                            <li><strong>Additives (Admixtures):</strong> Substances added to alter workability, cure times (e.g., <strong>retarders</strong> in hot weather), or increase density for improved performance.</li>
+                            <li><strong>Cement Grades:</strong> Different cement types (e.g., General Purpose, High Early Strength) are chosen based on required final strength and construction schedule.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Curing Time & Compressive Strength', 'How strength is achieved and measured in structural elements.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Design Strength:</strong> Full designated design strength is typically achieved at <strong>28 days</strong>.</li>
+                            <li><strong>Construction Milestone:</strong> $\mathbf{90\%}$ of design strength is reached in approximately <strong>14 days</strong>.</li>
+                            <li><strong>Strength Testing:</strong> Samples are taken (e.g., test cylinders) and crushed to assess <strong>compressive strength</strong> (measured in <strong>MPa</strong>). A <strong>Slump Test</strong> checks consistency/workability on site.</li>
+                            <li><strong>Reinforcing Role:</strong> Concrete is weak in <strong>tension</strong>. <strong>Reinforcing steel</strong> bars (rebar) and mesh are added to carry these tensile forces. Compaction must ensure intimate contact with steel.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Structural Performance & Applications', 'Why concrete is used for durability and protection.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Fire Resistance:</strong> Concrete is non-combustible and dense, providing excellent <strong>Fire Resistance Ratings (FRR)</strong> based on its thickness (e.g., $\mathbf{110 \text{ mm}}$ for $\mathbf{120 \text{ min}}$).</li>
+                            <li><strong>Acoustics:</strong> Its high density makes it excellent for reducing <strong>sound transmission</strong> (high <strong>STC</strong> rating, e.g., STC 55 for $150 \text{ mm}$ wall), ideal for party walls or multi-tenancy buildings.</li>
+                            <li><strong>Weathertightness:</strong> High strength concrete is denser. Improved by water repellent admixtures and relies heavily on excellent <strong>junction design</strong> (flashings, joint detailing).</li>
+                            <li><strong>Applications:</strong> Used for <strong>Insitu Columns</strong> (easier for rigid junctions) and various <strong>Precast</strong> floor panels/walls (faster construction).</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                `,
+                mcqs: [
+                    { q: "What percentage of concrete's strength is typically achieved at 28 days?", a: ["50%", "75%", "90%", "99%"], ans: "99%" },
+                    { q: "Which component constitutes the largest volume percentage in typical concrete mix?", a: ["Cement", "Water", "Aggregate (Gravel/Sand)", "Additives"], ans: "Aggregate (Gravel/Sand)" },
+                    { q: "The primary purpose of adding reinforcing steel to concrete is to resist:", a: ["Compression", "Shear near mid-span", "Tension", "Vibration"], ans: "Tension" },
+                    { q: "What is the primary effect of using a 'retarder' additive in concrete?", a: ["Speeds up curing time", "Increases workability", "Increases fire resistance", "Slows down curing time"], ans: "Slows down curing time" },
+                    { q: "Concrete's ability to reduce sound transmission is typically rated by its:", a: ["FRR (Fire Resistance Rating)", "MPa Strength", "STC (Sound Transmission Class)", "UDL Rating"], ans: "STC (Sound Transmission Class)" }
+                ],
+                filbs: [
+                    { text: "Full concrete design strength is typically achieved after _ days.", ans: "28" }, 
+                    { text: "The process of removing air voids from fluid concrete is called _.", ans: "compaction" },
+                    { text: "Reducing the water/cement ratio generally leads to _ compressive strength.", ans: "higher" },
+                    { text: "Concrete structural elements are tested to assess their _ strength.", ans: "compressive" },
+                    { text: "In multi-tenancy buildings, concrete is valued for its sound attenuation, measured by the _ rating.", ans: "STC" }
+                ],
+                flashcards: [
+                    { front: "What is the single most important factor controlling concrete compressive strength?", back: "The <strong>Water/Cement Ratio</strong>. Lowering this ratio (within acceptable limits) reduces porosity and increases the final compressive strength (measured in MPa)." },
+                    { front: "How long does concrete take to reach its full design strength and when is it ready for construction loading?", back: "Full design strength is achieved at <strong>28 days</strong>. However, $\mathbf{90\%}$ of strength is typically reached by <strong>14 days</strong>, allowing load transfer to proceed if certified by the engineer." },
+                    { front: "Why is concrete compaction essential, and what tool is used?", back: "Compaction (using a <strong>vibrator</strong>) is essential to <strong>remove air voids</strong> from the mix, which otherwise compromise strength and allow moisture paths for rebar corrosion." },
+                    { front: "Explain the Fire and Acoustic benefits of concrete.", back: "Concrete is dense and <strong>non-combustible</strong>, providing a high <strong>Fire Resistance Rating (FRR)</strong> based on thickness. Its density provides excellent <strong>Sound Transmission Class (STC)</strong> rating, ideal for acoustic insulation." }
+                ],
+                mindmap: {
+                    name: "Concrete Basics",
+                    children: [
+                        { name: "Composition", children: [
+                            { name: "Cement (Binder)" },
+                            { name: "Aggregate (Filler)" },
+                            { name: "Water/Admixtures" }
+                        ]},
+                        { name: "Structural Role", children: [
+                            { name: "Strong in Compression" },
+                            { name: "Weak in Tension (Needs Rebar)" },
+                            { name: "Curing (28 Days)" }
+                        ]},
+                        { name: "Performance", children: [
+                            { name: "Fire Resistance (FRR)" },
+                            { name: "Sound Attenuation (STC)" },
+                            { name: "Durability" }
+                        ]}
+                    ]
+                }
+            },
+            'Precast Concrete': {
+                notes: `
+                    <p class="mb-4 text-secondary">Precast, Pre-stressed, and Post-tensioned concrete offer key advantages over traditional insitu methods in terms of speed, quality, and structural efficiency.</p>
+                    ${renderInteractiveNotesBlock('Precast vs. Pre-stressed vs. Post-tensioned', 'Understanding the critical differences in manufacturing and load application.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Precast:</strong> Elements fabricated <strong>off-site</strong> (or in a casting bed on-site), transported, and lifted into place. Uses <strong>traditional reinforcement</strong> (rebar). Examples: <strong>Wall Panels, Columns, Stair Flights</strong>.</li>
+                            <li><strong>Pre-stressed (Pre-tensioned):</strong> Fabricated in a factory. Steel <strong>tendons are tensioned</strong> *before* concrete is poured. Tension is released *after* curing, putting the member into <strong>compression</strong>. Examples: <strong>Floor Planks (Hollowcore, Double Tees), Shell Beams</strong>.</li>
+                            <li><strong>Post-tensioned:</strong> Concrete is cast <strong>in situ</strong> (or very large components precast). Steel <strong>tendons are tensioned</strong> *after* the concrete has achieved sufficient strength. Used mostly for large <strong>slab-on-ground</strong> or bridge components to span great distances.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Factory Benefits & Element Types', 'Why prefabrication leads to higher quality and efficiency.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Advantages:</strong> Higher quality finish and <strong>dimensional accuracy</strong> (controlled environment), <strong>no wait time for curing</strong> on site, and <strong>lighter/stronger</strong> elements (especially prestressed).</li>
+                            <li><strong>Hollowcore:</strong> Pre-stressed floor panels with continuous holes running their length to <strong>reduce self-weight</strong>. Strength comes from bottom tendons and vertical ribs.</li>
+                            <li><strong>Double Tees:</strong> Pre-stressed floor/roof panels shaped like two 'T's, used for large spanning floors.</li>
+                            <li><strong>Insitu Topping:</strong> Often poured over precast floor units (like shell beams or hollowcore) to provide a level surface and create <strong>structural rigidity</strong> by locking all elements together.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Connections & Details', 'Ensuring safe lifting, assembly, and weather resistance.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Lifting:</strong> Achieved using <strong>lifting eyes</strong> (recessed metal lugs) specifically located for balanced lifting and tilting.</li>
+                            <li><strong>Assembly:</strong> Connections often use embedded <strong>steel plates</strong> and <strong>brackets</strong> for welding or bolting to the main structural frame (steel columns or insitu concrete).</li>
+                            <li><strong>Tolerance/Movement:</strong> Joints often include an intentional <strong>gap ($\mathbf{8-20 \text{ mm}}$)</strong> to accommodate construction tolerances and seismic movement (preventing panels from clashing).</li>
+                            <li><strong>Weathertightness:</strong> Achieved through careful joint design using <strong>sealants</strong>, <strong>backing rods</strong>, and <strong>capillary breaks</strong> (the wide joint gap itself).</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                `,
+                mcqs: [
+                    { q: "What is the key timing difference of tensioning in pre-stressed concrete?", a: ["Before curing", "During transport", "After curing", "Only during seismic event"], ans: "Before curing" },
+                    { q: "Which type of concrete element is typically used for a very large slab-on-ground where transport is impractical?", a: ["Precast Wall Panels", "Post-tensioned Slabs", "Hollowcore", "Double Tees"], ans: "Post-tensioned Slabs" },
+                    { q: "What is the primary benefit of factory fabrication over insitu concrete?", a: ["Less expensive cement", "Faster curing times on site", "Higher dimensional accuracy and quality finish", "Ability to pour larger volumes"], ans: "Higher dimensional accuracy and quality finish" },
+                    { q: "What feature reduces the self-weight of Hollowcore floor panels?", a: ["Embedded steel plates", "Casting with lightweight aggregate", "Continuous holes running the length", "Thick insitu topping"], ans: "Continuous holes running the length" },
+                    { q: "Why are small gaps left between adjacent precast cladding panels?", a: ["To facilitate plastering", "To allow for seismic movement and tolerance", "To reduce material cost", "To prevent corrosion of steel plates"], ans: "To allow for seismic movement and tolerance" }
+                ],
+                filbs: [
+                    { text: "Pre-stressed concrete puts the member into a state of _.", ans: "compression" },
+                    { text: "Lifting precast units is done using recessed metal lugs called _.", ans: "lifting eyes" },
+                    { text: "Precast floor units typically require an _ topping to achieve structural rigidity on site.", ans: "insitu" },
+                    { text: "The primary purpose of precasting is often greater construction _.", ans: "speed, efficiency" },
+                    { text: "In post-tensioned systems, tensioning occurs _ the concrete has cured.", ans: "after" }
+                ],
+                flashcards: [
+                    { front: "Explain the key difference and application between Pre-stressed and Post-tensioned concrete.", back: "<strong>Pre-stressed</strong> is factory-made (tension <strong>before</strong> pour) for lighter, stronger beams and floor units (e.g., Hollowcore). <strong>Post-tensioned</strong> is usually applied *in situ* (tension <strong>after</strong> cure) for spanning very large, heavy slabs or bridges." },
+                    { front: "What function does the Insitu Topping serve on precast floor units?", back: "The topping concrete poured on site provides a final level floor surface and, crucially, creates **structural rigidity** by bonding the precast elements and reinforcement together to form monolithic connections for earthquake resistance." },
+                    { front: "What is the primary function of the deliberate joint gap (8-20mm) in precast wall cladding?", back: "The gap accommodates construction tolerances during installation and, more importantly, allows for significant <strong>seismic movement</strong> (and thermal expansion) without the adjacent panels clashing and fracturing." },
+                    { front: "Name two advantages of factory fabrication over site-poured (insitu) concrete.", back: "1. Superior <strong>dimensional accuracy</strong> and consistent quality finish (controlled curing). 2. <strong>No curing delays</strong> on site, significantly speeding up the construction program." }
+                ],
+                mindmap: {
+                    name: "Precast Concrete",
+                    children: [
+                        { name: "Types", children: [
+                            { name: "Precast (Rebar)" },
+                            { name: "Pre-stressed (Tendons before pour)" },
+                            { name: "Post-tensioned (Tendons after pour)" }
+                        ]},
+                        { name: "Elements", children: [
+                            { name: "Wall Panels" },
+                            { name: "Hollowcore/Double Tees (Floors)" },
+                            { name: "Shell Beams" }
+                        ]},
+                        { name: "Site Integration", children: [
+                            { name: "Lifting Eyes" },
+                            { name: "Seismic Joints (8-20mm Gap)" },
+                            { name: "Insitu Topping (Rigidity)" }
+                        ]}
+                    ]
+                }
+            },
+            'Structural Steel': {
+                notes: `
+                    <p class="mb-4 text-secondary">Structural steel is the backbone of many commercial projects. Learn its advantages, limitations, and how to protect it.</p>
+                    ${renderInteractiveNotesBlock('Advantages & Disadvantages of Steel', 'Why choose steel? What are its key weaknesses?')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Advantages:</strong> <strong>Faster to erect</strong> than concrete, <strong>very consistent high strength</strong>, <strong>high strength-to-weight ratio</strong>, and is <strong>100% recyclable</strong>.</li>
+                            <li><strong>Disadvantages:</strong> High embodied energy, requires protective coatings for <strong>corrosion</strong> and <strong>fire resistance</strong>, transport of large components can be difficult.</li>
+                            <li><strong>Fire Vulnerability:</strong> Steel loses <strong>50% of its strength</strong> when heated to <strong>$\mathbf{650^\circ C}$</strong> (it won't melt but softens dramatically).</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Steel Profiles & Fabrication', 'Understanding hot- vs. cold-rolled processes and common shapes.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Hot-Rolled Steel (HRS):</strong> Formed at high temperatures. Used for primary structural elements like <strong>Universal Beams (UB)</strong>, <strong>Universal Columns (UC)</strong>, and <strong>Parallel Flange Channels (PFC)</strong>.</li>
+                            <li><strong>Cold-Rolled Steel (CRS):</strong> Formed at ambient temperatures from flat steel. Used for light-weight, secondary members such as <strong>purlins</strong> (roof) and <strong>girts</strong> (wall cladding support).</li>
+                            <li><strong>Castellated Beam:</strong> A profile created by cutting and re-welding a UB to increase its depth, allowing essential <strong>services</strong> (HVAC, ducts) to run horizontally through the web holes.</li>
+                            <li><strong>Girt:</strong> A horizontal support member, typically CRS, fixed between columns to support <strong>wall cladding</strong>.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Protection & Connections (Fabrication)', 'How steel is protected and joined on-site.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Corrosion Protection:</strong> Required for durability. Methods include <strong>Hot-Dip Galvanizing</strong> (molten zinc bath) or specialized <strong>High Performance Paint Systems</strong>.</li>
+                            <li><strong>Fire Protection:</strong> Uses <strong>Insulation</strong> (boards, sprayed foam) or <strong>Intumescent Paint</strong> (which foams up into an insulating char when exposed to fire).</li>
+                            <li><strong>Connections Rule:</strong> General rule is <strong>shop weld</strong> components (in the factory, high quality) and <strong>site bolt</strong> them during erection (faster, less specialized skill required). <strong>Moment Connections</strong> are required for rigid frame action.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                `,
+                mcqs: [
+                    { q: "What is a disadvantage of structural steel in fire?", a: ["It melts at $100^\circ C$", "It loses strength at $650^\circ C$", "It burns quickly", "It is non-combustible at all temperatures"], ans: "It loses strength at $650^\circ C$" },
+                    { q: "Which profile is typically Cold-Rolled Steel (CRS)?", a: ["Universal Column (UC)", "Universal Beam (UB)", "Purlin", "Parallel Flange Channel (PFC)"], ans: "Purlin" },
+                    { q: "What protection method foams up to insulate steel during a fire?", a: ["Hot-Dip Galvanizing", "Intumescent Paint", "Sprayed Metal", "Epoxy Coating"], ans: "Intumescent Paint" },
+                    { q: "What is the key advantage of a castellated beam?", a: ["It is corrosion-resistant", "It is stronger in shear", "It allows services to run through its web", "It reduces the need for fire protection"], ans: "It allows services to run through its web" },
+                    { q: "What is the common connection rule for factory fabricated steel?", a: ["Site weld and shop bolt", "Shop weld and site bolt", "Field bolt and field weld", "Shop bolt and site weld"], ans: "Shop weld and site bolt" },
+                    { q: "A GIRT is a horizontal member primarily used to support what?", a: ["Floor slabs", "Roof rafters", "Wall cladding", "HVAC ducts"], ans: "Wall cladding" },
+                    { q: "What is the term for steel that is covered by a layer of rust, intended for exterior use?", a: ["Stainless Steel", "Galvanized Steel", "Weathering Steel (Cor-Ten)", "Mild Steel"], ans: "Weathering Steel (Cor-Ten)" }
+                ],
+                filbs: [
+                    { text: "The general rule for steel joining is to shop weld and site _.", ans: "bolt" }, 
+                    { text: "Steel loses half its strength if heated to _ degrees Celsius.", ans: "650" },
+                    { text: "The profile created by cutting and re-welding a UB to allow services through is a _ beam.", ans: "castellated" },
+                    { text: "Hot-rolled steel is typically used for _ structural members.", ans: "primary" },
+                    { text: "The process of using molten zinc to protect steel from corrosion is called Hot-Dip _.", ans: "Galvanizing" },
+                    { text: "A UC profile stands for Universal _.", ans: "Column" },
+                    { text: "Moment connections are required to ensure the frame remains _.", ans: "rigid" }
+                ],
+                flashcards: [
+                    { front: "How does fire affect structural steel, and what is the critical temperature threshold?", back: "Steel loses 50% of its strength at <strong>$\mathbf{650^\circ C}$</strong>. It will not melt, but it loses tensile strength rapidly, leading to major deflection, sagging, and structural collapse." },
+                    { front: "Differentiate between Hot-Rolled Steel (HRS) and Cold-Rolled Steel (CRS) application.", back: "<strong>HRS</strong> is used for heavy, primary elements (UB, UC, PFC) formed at high temperatures. <strong>CRS</strong> is used for lighter, secondary elements like <strong>purlins</strong> (roof support) and <strong>girts</strong> (cladding support) formed at ambient temperatures." },
+                    { front: "What is a Castellated Beam and what problem does it solve?", back: "A standard UB beam cut and re-welded to create hexagonal holes in the web. This increases the beam's depth and allows building **services** (HVAC, ducts) to run horizontally through the beam profile, reducing overall floor height." },
+                    { front: "What is the 'shop weld, site bolt' rule and why is it used?", back: "This is the general rule where complex welding is completed in the factory (<strong>shop weld</strong>) for high quality, while simpler **bolting** is used on site (<strong>site bolt</strong>) during erection for speed and efficiency." }
+                ],
+                mindmap: {
+                    name: "Structural Steel",
+                    children: [
+                        { name: "Fabrication", children: [
+                            { name: "Hot-Rolled (HRS)" },
+                            { name: "Cold-Rolled (CRS)" },
+                            { name: "Castellated Beams" }
+                        ]},
+                        { name: "Profiles", children: [
+                            { name: "UB (Beam)" },
+                            { name: "UC (Column)" },
+                            { name: "Purlins (CRS)" }
+                        ]},
+                        { name: "Protection/Joints", children: [
+                            { name: "Fire (Intumescent Paint)" },
+                            { name: "Corrosion (Galvanizing)" },
+                            { name: "Shop Weld / Site Bolt" }
+                        ]}
+                    ]
+                }
+            },
+            'Shallow Foundations': {
+                notes: `
+                    <p class="mb-4 text-secondary">Shallow foundations transmit building loads to soil strata near ground level, suitable when the soil's bearing capacity is good near the surface.</p>
+                    ${renderInteractiveNotesBlock('Function & Essential Principles', 'The loads, their distribution, and protection.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Function:</strong> Transmit <strong>Dead Loads</strong> (building mass) and <strong>Live Loads</strong> (wind, EQ, occupants) safely to the <strong>solid-bearing strata</strong>.</li>
+                            <li><strong>Load Distribution:</strong> Must distribute loads <strong>uniformly</strong> to minimize differential settlement.</li>
+                            <li><strong>Durability:</strong> Foundations are typically <strong>mass or reinforced concrete</strong>. Reinforcing steel must have specified minimum <strong>concrete cover</strong> to prevent corrosion (rusting requires oxygen and moisture).</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Types of Shallow Foundations', 'Matching design to the loads and wall/column requirements.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Strip Footing:</strong> Placed under <strong>continuous, load-bearing walls</strong>. Designed to handle <strong>UDL</strong> (Uniformly Distributed Loads).</li>
+                            <li><strong>Isolated Pad Foundation:</strong> Supports individual <strong>columns</strong>. Designed to handle <strong>PL</strong> (Point Loads). Thickness depends on column loading and soil bearing pressure.</li>
+                            <li><strong>Raft Foundation:</strong> A large, combined foundation covering the entire building area. Used when the upper soil strata are <strong>weak</strong> to spread the load over the maximum area, or if pile foundations are uneconomical.</li>
+                            <li><strong>Combined Foundations:</strong> Systems like the <strong>Cantilever Foundation</strong> are used when a column is obstructed (e.g., near a boundary or sewer line) and links pads via a tie beam.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Settlement & Failure Modes', 'Understanding structural movement and causes of distress.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Settlement:</strong> The gradual consolidation and compaction of soil under load. It is expected and is part of the design calculation.</li>
+                            <li><strong>Differential Settlement:</strong> <strong>Uneven</strong> settlement between different parts of the structure, causing severe stress, cracking, and potential building failure. This is the primary risk to avoid.</li>
+                            <li><strong>Causes of Failure:</strong> Overloading the soil (exceeding bearing capacity), reduction in moisture (shrinkage in clay soils), or uneven subsoil conditions.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                `,
+                mcqs: [
+                    { q: "Which foundation type is best suited for supporting a continuous load-bearing wall?", a: ["Isolated Pad", "Deep Pile", "Strip Footing", "Cellular Raft"], ans: "Strip Footing" },
+                    { q: "What is the primary risk associated with uneven subsoil conditions on a large building?", a: ["Uniform Settlement", "Tipping Settlement", "Differential Settlement", "Soil Liquefaction"], ans: "Differential Settlement" },
+                    { q: "What load type results from the building's fixed mass?", a: ["Live Load", "Wind Load", "Dead Load", "Surcharge Load"], ans: "Dead Load" },
+                    { q: "A Raft foundation is commonly characterized by which feature?", a: ["Piles driven to bedrock", "A deep, narrow trench", "Covering the whole building area to spread load", "Supporting individual columns only"], ans: "Covering the whole building area to spread load" },
+                    { q: "What is the function of minimum concrete cover around reinforcing steel in a foundation?", a: ["To reduce the total weight of the foundation", "To prevent corrosion of the steel", "To increase the aesthetic appeal", "To improve the concrete's tensile strength"], ans: "To prevent corrosion of the steel" }
+                ],
+                filbs: [
+                    { text: "A Raft Foundation is used when the soil strata is _.", ans: "weak" }, 
+                    { text: "The primary risk to be avoided in foundation design is _ settlement.", ans: "differential" },
+                    { text: "An Isolated Pad Foundation is designed to support a _ load.", ans: "point" },
+                    { text: "The gradual compaction of soil under load is known as _.", ans: "settlement, consolidation" },
+                    { text: "A foundation designed to span over a boundary obstruction is a _ foundation.", ans: "cantilever" }
+                ],
+                flashcards: [
+                    { front: "Differentiate the loads carried by a Strip Footing vs. an Isolated Pad Foundation.", back: "A <strong>Strip Footing</strong> supports a <strong>Uniformly Distributed Load (UDL)</strong> from a wall. An <strong>Isolated Pad</strong> supports a concentrated <strong>Point Load (PL)</strong> from a column." },
+                    { front: "What is Differential Settlement, and why is it dangerous?", back: "It is <strong>uneven settlement</strong> between different parts of the structure. It creates enormous stress and shear forces in the frame, leading to major cracking and structural failure." },
+                    { front: "When is a Raft Foundation preferred over Strip/Pad Footings?", back: "A Raft is preferred when the immediate sub-soil is <strong>weak or compressible</strong>, requiring the load to be spread evenly over the **entire building area** rather than concentrated at points." },
+                    { front: "What must be ensured regarding reinforcing steel in a foundation, and why?", back: "There must be adequate **concrete cover** (minimum depth) over the reinforcing steel to prevent moisture and oxygen ingress, which causes **corrosion** (rusting) and subsequent concrete spalling and structural deterioration." }
+                ],
+                mindmap: {
+                    name: "Shallow Foundations",
+                    children: [
+                        { name: "Types by Load", children: [
+                            { name: "Strip Footing (UDL)" },
+                            { name: "Isolated Pad (PL)" }
+                        ]},
+                        { name: "Specialized Types", children: [
+                            { name: "Raft (Weak Soil)" },
+                            { name: "Cantilever (Obstructions)" }
+                        ]},
+                        { name: "Performance Issues", children: [
+                            { name: "Differential Settlement" },
+                            { name: "Soil Shear Failure" }
+                        ]}
+                    ]
+                }
+            },
+            'Deep Foundations': {
+                notes: `
+                    <p class="mb-4 text-secondary">Piles are necessary when firm soil is too deep for conventional footings. Selection depends on the soil, loads, and urban constraints.</p>
+                    ${renderInteractiveNotesBlock('Pile Classification & Load Transfer', 'The difference in installation methods and how they carry load.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>When to Use:</strong> When solid bearing strata is deeper than <strong>3.5 - 4.5 meters</strong>, or when building over <strong>soft, compressible</strong> soils or water.</li>
+                            <li><strong>Driven Piles (Displacement):</strong> Pre-formed (timber, steel, precast concrete) and driven/vibrated. They transfer load primarily through <strong>Friction</strong> along the shaft. Disadvantages: <strong>Noise and Vibration</strong> (disruptive).</li>
+                            <li><strong>Bored Piles (Replacement):</strong> Drilled (augered) and filled in situ with concrete. They transfer load primarily through <strong>End Bearing</strong> onto the hard stratum at the base. Advantages: <strong>Minimal noise/vibration</strong>; depth can be varied.</li>
+                            <li><strong>Pile Cap:</strong> The structural element that connects the pile(s) to the column above, distributing the load and tying the pile cluster together.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Basement Retaining Walls', 'Structures that hold back earth and water pressure.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Function:</strong> Resist the <strong>lateral thrust</strong> of soil, sub-soil <strong>water pressure</strong>, and any superimposed loads (surcharge).</li>
+                            <li><strong>Piling Walls:</strong> Walls formed by interlocking piles, often used as permanent basement walls:
+                                <ul class="list-circle list-inside ml-6 text-xs">
+                                    <li><strong>Secant Piles:</strong> Interlocking piles (alternating soft/hard concrete) that create a <strong>continuous, waterproof wall</strong>.</li>
+                                    <li><strong>Diaphragm Walls:</strong> Very deep concrete panels constructed using a <strong>bentonite slurry</strong> to maintain excavation stability before concrete is poured.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Tanking:</strong> The process of providing a continuous, <strong>impermious membrane</strong> (e.g., asphalt or sheet membrane) around the entire basement exterior to prevent <strong>water and vapor ingress</strong> (waterproofing).</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                `,
+                mcqs: [
+                    { q: "What is the key difference between a Bored Pile and a Driven Pile?", a: ["Bored piles use friction, driven piles use end bearing", "Bored piles are noisy, driven piles are quiet", "Bored piles are drilled, driven piles are hammered/vibrated", "Bored piles are used in water, driven piles on land"], ans: "Bored piles are drilled, driven piles are hammered/vibrated" },
+                    { q: "A Friction Pile primarily transfers its load to the ground through which mechanism?", a: ["End Bearing on bedrock", "Bending resistance", "Lateral soil resistance along the shaft", "Hydraulic pressure"], ans: "Lateral soil resistance along the shaft" },
+                    { q: "What is the main advantage of using bored piles in a dense urban environment?", a: ["Higher load capacity", "Faster installation speed", "Minimal noise and vibration", "Lower material cost"], ans: "Minimal noise and vibration" },
+                    { q: "What material is typically used to create a Secant Pile wall?", a: ["Timber poles and lagging", "Interlocking steel sheet piles", "Alternating columns of hard and soft concrete", "Reinforced masonry blocks"], ans: "Alternating columns of hard and soft concrete" },
+                    { q: "What is the primary function of a pile cap?", a: ["To reduce the noise during driving", "To anchor the pile into soft soil", "To connect the pile cluster to the column above", "To act as a temporary casing"], ans: "To connect the pile cluster to the column above" }
+                ],
+                filbs: [
+                    { text: "The term for providing a continuous, impervious membrane to waterproof a basement is _.", ans: "tanking" },
+                    { text: "Driven piles are a form of _ pile.", ans: "displacement" },
+                    { text: "End bearing piles rely on founding onto the _ stratum.", ans: "hard, rock" },
+                    { text: "Ground beams are used in place of a strip footing when there is no _ bearing ground.", ans: "solid" },
+                    { text: "A Diaphragm Wall is constructed using a slurry made of _.", ans: "bentonite" }
+                ],
+                flashcards: [
+                    { front: "Differentiate a Bored Pile (replacement) from a Driven Pile (displacement).", back: "<strong>Bored Piles</strong> are drilled in situ (replacement method, minimal noise) and transfer load via <strong>End Bearing</strong>. <strong>Driven Piles</strong> are hammered/vibrated (displacement method, noisy) and transfer load via <strong>Friction</strong> along the shaft." },
+                    { front: "What is the primary function of the Pile Cap?", back: "The pile cap is a reinforced concrete interface that serves to <strong>tie a cluster of piles together</strong> and distribute the single concentrated load from the column/superstructure evenly onto the piles below." },
+                    { front: "What does the term 'Tanking' refer to in basement construction?", back: "<strong>Tanking</strong> is the process of applying a continuous, impervious membrane (e.g., sheet membrane or asphalt) around the entire exterior of a basement structure to prevent **water and vapor ingress** (waterproofing)." },
+                    { front: "What are Secant Piles used for?", back: "Secant Piles form a continuous, overlapping, and often waterproof permanent basement wall. They are created by drilling alternating 'soft' and 'hard' concrete columns that interlock." }
+                ],
+                mindmap: {
+                    name: "Deep Foundations",
+                    children: [
+                        { name: "Piles by Installation", children: [
+                            { name: "Driven (Displacement)" },
+                            { name: "Bored (Replacement)" }
+                        ]},
+                        { name: "Load Transfer", children: [
+                            { name: "End Bearing" },
+                            { name: "Friction (Along Shaft)" }
+                        ]}
+                    ]
+                }
+            },
+            'Formwork & Falsework': {
+                notes: `
+                    <p class="mb-4 text-secondary">Formwork and Falsework are critical temporary works for concrete construction. Safety is paramount due to the weight of wet concrete.</p>
+                    ${renderInteractiveNotesBlock('Definitions & Concrete Pressure', 'Clarifying the two essential components of temporary concrete works.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Formwork:</strong> The <strong>temporary mould</strong> used to contain and shape wet, fluid concrete.</li>
+                            <li><strong>Falsework:</strong> The <strong>temporary support structure</strong> (propping, bracing) carrying the weight of the formwork, wet concrete, and equipment.</li>
+                            <li><strong>Pressure:</strong> Wet concrete is heavy ($\approx \mathbf{2.4 \text{ tonnes}/\text{m}^3}$), generating huge <strong>bursting pressures</strong> against vertical form faces that must be structurally resisted.</li>
+                            <li><strong>Grout Loss:</strong> Joints must be tight to prevent <strong>grout loss</strong> (loss of cement fines and sand), which compromises the concrete's surface finish and strength.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Formwork Components & Assembly', 'Ensuring stability and dimensional accuracy.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Kickers:</strong> Small blocks secured to the slab/ground that prevent the bottom of vertical column/wall formwork from shifting outwards during the pour.</li>
+                            <li><strong>Ties/Thru Rods:</strong> Steel elements running through the concrete cavity that secure opposing form faces against the <strong>bursting pressure</strong>.</li>
+                            <li><strong>Walers:</strong> Horizontal beams/strongbacks that back up the form face, distributing the pressure to the ties.</li>
+                            <li><strong>Form Face:</strong> The material in direct contact with the concrete, responsible for the required <strong>concrete finish</strong> (e.g., plywood, timber look).</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Advanced Techniques & Removal', 'Methods for high-speed or complex construction.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Climbing/Jump Formwork:</strong> A self-climbing system used for continuous pours of tall vertical elements like elevator cores (e.g., the <strong>Auckland Sky Tower core</strong>).</li>
+                            <li><strong>Stripping (Striking):</strong> The process of safely removing formwork, which can only be done once the concrete has reached the specified <strong>minimum design strength</strong> (e.g., for self-support).</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                `,
+                mcqs: [
+                    { q: "What is the primary function of falsework?", a: ["To create the mould for concrete", "To permanently reinforce the structure", "To support the formwork and construction loads", "To prevent water ingress"], ans: "To support the formwork and construction loads" },
+                    { q: "What is the function of walers in vertical formwork?", a: ["To act as ties", "To prevent grout loss", "To anchor the rebar cage", "To distribute concrete pressure to the ties"], ans: "To distribute concrete pressure to the ties" },
+                    { q: "The process of removing formwork is called:", a: ["Tensioning", "Compacting", "Curing", "Stripping (Striking)"], ans: "Stripping (Striking)" },
+                    { q: "What hazard is most directly created by the fluid nature and density of wet concrete?", a: ["Air voids", "Tensile forces", "Bursting pressures", "Differential settlement"], ans: "Bursting pressures" },
+                    { q: "What type of formwork was used for the continuous core construction of the Auckland Sky Tower?", a: ["Traditional timber boxing", "Climbing/Jump Formwork", "Permanent Formwork", "Trench Shields"], ans: "Climbing/Jump Formwork" }
+                ],
+                filbs: [
+                    { text: "The structural element that prevents the base of a column formwork from shifting is called a _.", ans: "kicker" },
+                    { text: "Wet concrete weighs approximately _ tonnes per cubic meter.", ans: "2.4" },
+                    { text: "Horizontal struts used in trench shoring are called _.", ans: "struts, flying shores" },
+                    { text: "Loss of cement fines and water through gaps in formwork is known as _ loss.", ans: "grout" },
+                    { text: "Formwork must only be removed once the concrete has reached its minimum _.", ans: "design strength" }
+                ],
+                flashcards: [
+                    { front: "Define Formwork and Falsework.", back: "<strong>Formwork</strong> is the temporary <strong>mould</strong> used to shape the fluid concrete. <strong>Falsework</strong> is the temporary <strong>support structure</strong> (props, beams, frames) that carries the load of the formwork and wet concrete." },
+                    { front: "What are Kickers and Walers used for in vertical formwork?", back: "<strong>Kickers</strong> are blocks at the base preventing the formwork from shifting horizontally. <strong>Walers</strong> are horizontal beams that distribute the large fluid concrete <strong>bursting pressure</strong> to the tie rods." },
+                    { front: "What is 'Stripping' and when is it permitted?", back: "Stripping (or striking) is the safe removal of formwork. It is only permitted once the concrete has reached a specified <strong>minimum design strength</strong> (e.g., sufficient strength for self-support)." },
+                    { front: "What type of formwork is used for constructing tall cores or structures (like the Sky Tower)?", back: "<strong>Climbing or Jump Formwork</strong>. This system allows continuous concrete pours of tall vertical elements without waiting for external formwork assembly from the ground up." }
+                ],
+                mindmap: {
+                    name: "Formwork & Falsework",
+                    children: [
+                        { name: "Definitions", children: [
+                            { name: "Formwork (Mould)" },
+                            { name: "Falsework (Support)" }
+                        ]},
+                        { name: "Components", children: [
+                            { name: "Ties / Thru Rods" },
+                            { name: "Walers" },
+                            { name: "Kickers" }
+                        ]},
+                        { name: "Principles", children: [
+                            { name: "Resist Bursting Pressure" },
+                            { name: "Prevent Grout Loss" },
+                            { name: "Stripping (Timing)" }
+                        ]}
+                    ]
+                }
+            },
+            'Excavation & Shoring': {
+                notes: `
+                    <p class="mb-4 text-secondary">Excavation and shoring address removing soil and temporarily supporting the remaining ground to ensure site safety.</p>
+                    ${renderInteractiveNotesBlock('Excavation Types & Preparation', 'Understanding the pre-work requirements and different dig types.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Excavation Types:</strong> <strong>Trench</strong> ($W < D$, long/narrow for services/footings), <strong>Open</strong> ($W > D$, wide for basements/spread foundations), <strong>Shaft/Drive</strong> (deep vertical pit or horizontal tunnel).</li>
+                            <li><strong>Planning:</strong> Requires a <strong>Geotechnical Report</strong> (to determine soil properties, groundwater, and bearing capacity) and identification/location of all existing <strong>utility services</strong>.</li>
+                            <li><strong>Dewatering:</strong> Essential process for removing surface water and <strong>groundwater</strong> (via <strong>sumps and pumps</strong>) to prevent soil instability and trench collapse.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Hazards, Surcharge, & Ground Control', 'Methods to prevent catastrophic wall/face collapse and manage external loads.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Surcharge Loads:</strong> <strong>Additional loads</strong> (vehicles, stored spoil, adjacent buildings) that increase lateral pressure on the excavation face. Must be kept back from the edge (e.g., <strong>$\mathbf{600 \text{ mm}}$ minimum setback</strong>).</li>
+                            <li><strong>Underpinning:</strong> The specific process of <strong>strengthening an adjacent building's existing foundation</strong> when excavating below its footing level.</li>
+                            <li><strong>Ground Controls (to prevent soil failure):</strong>
+                                <ul class="list-circle list-inside ml-6 text-xs">
+                                    <li><strong>Battering:</strong> Cutting the excavation face back to a <strong>safe angle of repose</strong> (e.g., $\mathbf{1\text{V}:1\text{H}}$ above the water table).</li>
+                                    <li><strong>Benching:</strong> Cutting the face into horizontal steps.</li>
+                                    <li><strong>Shoring:</strong> Temporary physical support (timber/steel sheeting) to the excavation face.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Shoring Systems & Components', 'Temporary and permanent solutions for deep support.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Temporary Shoring:</strong> <strong>Dead Shores</strong> (vertical props), <strong>Raking Shores</strong> (inclined props), <strong>Flying Shores / Cross-lot Bracing</strong> (horizontal struts).</li>
+                            <li><strong>Tiebacks:</strong> Rods anchored deep into the soil *behind* the shoring wall, tensioned to hold the wall face back without needing internal bracing across the excavation.</li>
+                            <li><strong>Permanent Shoring Walls:</strong> Solutions that become part of the final basement structure, such as continuous walls formed by <strong>Secant Piles</strong> (interlocking concrete columns) or <strong>Diaphragm Walls</strong> (concrete panels set in a slurry).</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                `,
+                mcqs: [
+                    { q: "What is the primary method to mitigate the effects of a surcharge load from an adjacent building near a deep excavation?", a: ["Dewatering the excavation", "Battering the excavation face", "Installing a trench shield", "Underpinning the adjacent foundation"], ans: "Underpinning the adjacent foundation" },
+                    { q: "What is the recommended safe slope (angle of repose) for excavated faces *above* the water table?", a: ["1V:1.5H", "1V:2H", "1V:1H (45 degrees)", "2V:1H"], ans: "1V:1H (45 degrees)" },
+                    { q: "Which excavation type has a horizontal width (W) greater than its vertical depth (D)?", a: ["Trench", "Shaft", "Drive", "Open"], ans: "Open" },
+                    { q: "What is the main purpose of dewatering an excavation?", a: ["To reduce seismic load", "To prevent soil instability and trench collapse", "To compact the soil", "To recycle stormwater"], ans: "To prevent soil instability and trench collapse" },
+                    { q: "What type of shoring uses inclined props anchored to the ground away from the face?", a: ["Dead Shores", "Flying Shores", "Raking Shores", "Cross-lot Bracing"], ans: "Raking Shores" }
+                ],
+                filbs: [
+                    { text: "A surcharge load is an _ load imposed on the surface adjacent to an excavation.", ans: "additional" }, 
+                    { text: "The specific process of strengthening an adjacent foundation is called _.", ans: "underpinning" },
+                    { text: "Removing groundwater from a site using sumps and pumps is called _.", ans: "dewatering" },
+                    { text: "The temporary physical support installed to prevent an excavation face collapse is called _.", ans: "shoring" },
+                    { text: "Walls formed by interlocking concrete columns that become the permanent basement wall are called _.", ans: "Secant Piles" }
+                ],
+                flashcards: [
+                    { front: "What is the critical distinction between Shoring and Underpinning?", back: "<strong>Shoring</strong> is temporary support for the <strong>excavation face</strong>. <strong>Underpinning</strong> is the specific process of strengthening an adjacent <strong>existing building's foundation</strong>." },
+                    { front: "What is a Surcharge Load and why must it be controlled?", back: "An additional load (e.g., parked vehicles, spoil piles, adjacent buildings) near the excavation edge. It increases the **lateral pressure** and risks **catastrophic face collapse** of the excavation wall." },
+                    { front: "Differentiate Battering and Benching for ground control.", back: "<strong>Battering</strong> is cutting the excavation face back to a single <strong>safe angle of repose</strong> (e.g., 1V:1H). <strong>Benching</strong> is cutting the face back into a series of horizontal **steps or platforms** for safety and access." },
+                    { front: "What is the main function and method of Dewatering?", back: "<strong>Dewatering</strong> removes groundwater/stormwater (using **sumps and pumps**) to prevent the soil from becoming saturated, which critically lowers its shear strength and causes collapse." }
+                ],
+                mindmap: {
+                    name: "Excavation & Shoring",
+                    children: [
+                        { name: "Excavation Types", children: [
+                            { name: "Trench ($W<D$)" },
+                            { name: "Open ($W>D$)" }
+                        ]},
+                        { name: "Ground Control", children: [
+                            { name: "Battering ($1\text{V}:1\text{H}$)" },
+                            { name: "Underpinning" },
+                            { name: "Dewatering" }
+                        ]},
+                        { name: "Shoring Systems", children: [
+                            { name: "Temporary (Raking, Flying)" },
+                            { name: "Permanent (Secant Piles)" },
+                            { name: "Tiebacks" }
+                        ]}
+                    ]
+                }
+            },
+            'Scaffolding & Safety': {
+                notes: `
+                    <p class="mb-4 text-secondary">Site safety, especially regarding working at height (scaffolding) and public protection (hoardings), is governed by strict temporary works regulations.</p>
+                    ${renderInteractiveNotesBlock('Scaffolding Fundamentals & Fall Protection', 'Focus on fall hazards and inspection requirements.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Primary Hazard:</strong> <strong>Falls</strong> are the cause of most serious injury and death in the NZ construction industry.</li>
+                            <li><strong>Scaffold Definition:</strong> Any temporary structure for the support or protection of <strong>workers</strong> or <strong>materials</strong>.</li>
+                            <li><strong>Safety Hierarchy:</strong> Planning follows: <strong>Eliminate</strong> (avoid working at height), <strong>Isolate</strong> (guardrails, platforms, scaffolding), <strong>Minimise</strong> (safety nets, fall arrest systems, harnesses).</li>
+                            <li><strong>Compliance:</strong> Scaffolds over $\mathbf{5 \text{ m}}$ require a <strong>Scaffold Register</strong> and must be inspected weekly by a certified scaffolder or competent person.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                    ${renderInteractiveNotesBlock('Hoardings, Barriers, & Public Access', 'How construction zones are secured and managed in public spaces.')}
+                        <ul class="list-disc list-inside ml-4 text-sm space-y-1 text-light-main">
+                            <li><strong>Hoarding (Site Fence):</strong> Function is to prevent <strong>unauthorized public access</strong>, provide <strong>security</strong>, and contain <strong>noise/dust</strong>.</li>
+                            <li><strong>Minimum Height:</strong> Must extend at least <strong>$\mathbf{2.0 \text{ m}}$</strong> in height on the side accessible to the public (NZBC F5/AS1).</li>
+                            <li><strong>Gantry:</strong> Required if overhead protection is needed due to <strong>objects falling</strong> from work carried out above public access areas.</li>
+                            <li><strong>Certificate of Public Use (CPU):</strong> Required if a building remains partially open to the public during construction/renovation, necessitating a plan to separate the public access zone from the construction zone.</li>
+                        </ul>
+                    ${closeInteractiveNotesBlock()}
+                `,
+                mcqs: [
+                    { q: "What is the minimum height required for hoardings accessible to the public?", a: ["$1.2 \text{ m}$", "$1.5 \text{ m}$", "$1.8 \text{ m}$", "$2.0 \text{ m}$"], ans: "$2.0 \text{ m}$" },
+                    { q: "What frequency of inspection is generally required for scaffolds in use for more than one week?", a: ["Daily", "Monthly", "Weekly", "Bi-annually"], ans: "Weekly" },
+                    { q: "Which component is NOT typically found on a standing scaffold?", a: ["Guardrail", "Baseplate", "Putlog", "Needle"], ans: "Needle" },
+                    { q: "What protection system is required if construction work is taking place above a public walkway?", a: ["Temporary Prop", "Cantilevered Scaffold", "Gantry", "Toe Board"], ans: "Gantry" },
+                    { q: "What is the purpose of containment sheeting on scaffolding?", a: ["To increase lateral wind load", "To provide permanent weather protection", "To screen materials falling onto people/property", "To connect the scaffold to the building"], ans: "To screen materials falling onto people/property" }
+                ],
+                filbs: [
+                    { text: "The primary function of a _ is to prevent public access to a construction site.", ans: "hoarding" },
+                    { text: "Falls are the cause of most _ in the NZ construction industry.", ans: "death and injury" },
+                    { text: "Scaffolding over $\mathbf{5 \text{ m}}$ high requires a _.", ans: "Scaffold Register" },
+                    { text: "The term for preparing methodology and falsework design is TWD, which stands for _.", ans: "Temporary Works Design" },
+                    { text: "The lowest level of protection on the safety hierarchy is Minimization, which includes _.", ans: "harnesses, safety nets" }
+                ],
+                flashcards: [
+                    { front: "What does the Safety Hierarchy principle 'Isolate' require for working at height?", back: "<strong>Isolation</strong> requires placing physical barriers between the worker/public and the hazard. This involves using fixed barriers like **guardrails, perimeter screens, and fully decked platforms (scaffolding)**." },
+                    { front: "What is the primary function and required height of a Hoarding?", back: "A <strong>Hoarding</strong> (site fence) prevents public access, provides security, and controls dust/noise. It must be a minimum of **2.0 m** high on the side accessible to the public (NZBC F5/AS1)." },
+                    { front: "When is a Gantry structure required, and what is its purpose?", back: "A <strong>Gantry</strong> (overhead structure) is required when work is carried out **above a public area** (or thoroughfare) to provide protection from **falling tools or debris**." },
+                    { front: "What are the compliance requirements for scaffolding over 5 meters?", back: "Scaffolds over $\mathbf{5 \text{ m}}$ must have a certified <strong>Scaffold Register</strong> and must be inspected by a competent person <strong>weekly</strong> (or after any event that affects its stability)." }
+                ],
+                mindmap: {
+                    name: "Scaffolding & Safety",
+                    children: [
+                        { name: "Temporary Works", children: [
+                            { name: "TWD (Design/Methodology)" },
+                            { name: "Scaffolding (Support)" }
+                        ]},
+                        { name: "Public Protection", children: [
+                            { name: "Hoarding (Min. 2.0m)" },
+                            { name: "Gantry (Overhead Safety)" },
+                            { name: "CPU (Public Use)" }
+                        ]}
+                    ]
+                }
+            }
+        };
+
+        const NUM_MCQS = 40;
+        const NUM_FILBS = 20;
+
+        // --- Core Application State & Logic ---
+        const state = {
+            currentModule: 'Structural Principles', // Default Module
+            currentSection: 'Flashcards', // Set default section to Flashcards
+            mcqScore: 0,
+            filbScore: 0,
+            mcqAnswers: {},
+            filbAnswers: {}
+        };
+        
+        // --- Interactive Notes Rendering Helper ---
+        function renderInteractiveNotesBlock(title, subtitle) {
+            const safeTitle = title.replace(/\s/g, '-').replace(/[^\w-]/g, '');
+            return `
+                <div class="mb-4">
+                    <div id="${safeTitle}-header" class="collapsible-header p-4 rounded-t-lg border-b-2 flex justify-between items-center" onclick="toggleCollapsible('${safeTitle}-content')">
+                        <div>
+                            <h3 class="font-bold text-xl text-blue-400">${title}</h3>
+                            <p class="text-xs text-secondary">${subtitle}</p>
+                        </div>
+                        <svg id="${safeTitle}-icon" class="w-6 h-6 text-blue-400 transform rotate-0 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div id="${safeTitle}-content" class="collapsible-content max-h-0 p-4 rounded-b-lg border-l-2 border-r-2 border-b-2 border-blue-600">
+            `;
+        }
+
+        function closeInteractiveNotesBlock() {
+            return `</div></div>`;
+        }
+
+        // Utility to generate a large array of unique dummy questions
+        function generateDummyQuestions(type) {
+            const data = moduleData[state.currentModule];
+            if (!data || !data[type]) return [];
+
+            const baseData = data[type];
+            const requiredCount = type === 'mcqs' ? NUM_MCQS : NUM_FILBS;
+            const generated = [...baseData];
+            const maxIndex = baseData.length;
+
+            while (generated.length < requiredCount) {
+                const item = baseData[generated.length % maxIndex];
+                if (type === 'mcqs') {
+                    generated.push({ ...item, q: `${item.q.split('(Q')[0].trim()} (Q${generated.length + 1})` });
+                } else {
+                    generated.push({ ...item, text: `${item.text.replace('.', '').replace('_.', '_').replace('...','_')} (Q${generated.length + 1}).` });
+                }
+            }
+            return generated;
+        }
+
+        // --- View Rendering Functions ---
+
+        function renderSidebar() {
+            const sidebarContent = document.getElementById('sidebar-content');
+            let html = '<h2 class="text-xl font-bold p-4 border-b border-gray-700">Modules</h2>';
+            html += '<div class="space-y-2 p-3">';
+            Object.keys(moduleFiles).forEach(moduleName => {
+                // FIX: Check state.currentModule against moduleName for active class
+                const isActive = moduleName === state.currentModule ? 'bg-blue-600 font-semibold' : 'hover:bg-gray-700';
+                html += `
+                    <div class="module-item ${isActive} flex items-center" 
+                        onclick="switchModule('${moduleName}')">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        <span>${moduleName}</span>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            sidebarContent.innerHTML = html;
+            // Re-render main content to ensure continuity after state change
+            renderMainContent(); 
+        }
+
+        function renderMainContent() {
+            const contentArea = document.getElementById('main-content-area');
+            const moduleName = state.currentModule;
+            const section = state.currentSection;
+            const data = moduleData[moduleName] || {};
+
+            let html = `<h1 class="text-3xl font-extrabold mb-6 text-blue-400">${moduleName}</h1>`;
+
+            // Navigation Tabs
+            html += `
+                <div class="flex border-b border-gray-700 mb-6 main-bg rounded-lg shadow-md p-2">
+                    ${['Learning', 'Quiz', 'Flashcards', 'Mind Map'].map(sec => `
+                        <div class="section-tab ${section === sec ? 'active' : 'text-secondary hover:text-light-main'}" onclick="switchSection('${sec}')">
+                            ${sec}
+                        </div>
+                    `).join('')}
+                </div>
+                <div id="section-view-container" class="p-6 content-bg rounded-lg shadow-xl min-h-96 relative">
+            `;
+
+            // Content based on Section
+            if (section === 'Learning' && data.notes) {
+                html += renderLearningSection(data.notes);
+            } else if (section === 'Quiz' && data.mcqs && data.filbs) {
+                html += renderQuizSection(data.mcqs, data.filbs);
+            } else if (section === 'Flashcards' && data.flashcards) {
+                html += renderFlashcardsSection(data.flashcards);
+            } else if (section === 'Mind Map' && data.mindmap) {
+                html += renderMindMapSection(data.mindmap);
+            } else {
+                html += `<p class="text-center text-secondary">Content for the <strong>${section}</strong> section in <strong>${moduleName}</strong> is coming soon!</p>`;
+            }
+
+            html += `</div>`;
+            contentArea.innerHTML = html;
+        }
+
+        function renderLearningSection(notes) {
+            // This is the advanced learning technique guided by keywords
+            return `
+                <div class="prose max-w-none text-lg text-light-main">
+                    <h2 class="text-2xl font-bold mb-4 text-light-main">${state.currentModule} Study Guide</h2>
+                    ${notes}
+                </div>
+            `;
+        }
+
+        function renderQuizSection(mcqs, filbs) {
+            const allMcqs = generateDummyQuestions('mcqs');
+            const allFilbs = generateDummyQuestions('filbs');
+
+            let html = `
+                <h2 class="text-2xl font-bold mb-6 text-light-main">Quiz: ${NUM_MCQS} MCQs & ${NUM_FILBS} Fill-in-the-Blanks</h2>
+                <div class="flex flex-wrap justify-between items-center bg-gray-800 p-4 rounded-lg mb-6 shadow-lg">
+                    <div class="text-xl font-semibold">Score: <span id="quiz-score-display" class="text-blue-400">${state.mcqScore + state.filbScore} / ${NUM_MCQS + NUM_FILBS}</span></div>
+                    <button onclick="submitQuiz()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 shadow-md">Submit Quiz & Review</button>
+                    <button onclick="resetQuiz()" class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 shadow-md">Reset Quiz</button>
+                </div>
+
+                <div id="quiz-results-message" class="mb-4 hidden p-4 text-center font-semibold rounded-lg"></div>
+
+                <form id="quiz-form" onsubmit="event.preventDefault(); submitQuiz();">
+            `;
+
+            // --- Multiple Choice Questions ---
+            html += `<h3 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2 text-blue-400">Multiple Choice Questions (${NUM_MCQS})</h3><div class="space-y-6">`;
+            allMcqs.slice(0, NUM_MCQS).forEach((item, index) => {
+                const qId = `mcq-${state.currentModule}-${index}`;
+                const choices = shuffleArray(item.a);
+                const currentAnswer = state.mcqAnswers[qId];
+                const isCorrect = currentAnswer && currentAnswer.submitted && currentAnswer.selected === item.ans;
+                const isIncorrect = currentAnswer && currentAnswer.submitted && currentAnswer.selected !== item.ans;
+                const resultClass = currentAnswer && currentAnswer.submitted ? (isCorrect ? 'bg-green-800 border-green-500' : 'bg-red-800 border-red-500') : 'border-gray-700';
+
+                html += `
+                    <div id="${qId}-container" class="p-4 border-2 rounded-lg ${resultClass} bg-gray-800/50">
+                        <p class="font-medium mb-3 text-light-main">${index + 1}. ${item.q}</p>
+                        <div class="space-y-2">
+                            ${choices.map(choice => `
+                                <label class="block cursor-pointer p-2 rounded-md transition duration-100 hover:bg-gray-700 ${currentAnswer && currentAnswer.submitted && choice === item.ans ? 'bg-green-700 font-semibold' : ''} ${isIncorrect && currentAnswer.selected === choice ? 'bg-red-700' : ''}">
+                                    <input type="radio" name="${qId}" value="${choice}" class="mr-2" ${currentAnswer && currentAnswer.selected === choice ? 'checked' : ''} ${currentAnswer && currentAnswer.submitted ? 'disabled' : ''}>
+                                    ${choice}
+                                </label>
+                            `).join('')}
+                        </div>
+                        ${currentAnswer && currentAnswer.submitted ? `<p class="mt-2 text-sm ${isCorrect ? 'text-green-300' : 'text-red-300'} font-semibold">Result: ${isCorrect ? 'Correct!' : `Incorrect. The correct answer was: ${item.ans}`}</p>` : ''}
+                    </div>
+                `;
+            });
+            html += `</div>`;
+
+            // --- Fill in the Blanks Questions ---
+            html += `<h3 class="text-xl font-semibold mt-10 mb-4 border-b border-gray-700 pb-2 text-blue-400">Fill-in-the-Blanks (${NUM_FILBS})</h3><div class="space-y-6">`;
+            allFilbs.slice(0, NUM_FILBS).forEach((item, index) => {
+                const qId = `filb-${state.currentModule}-${index}`;
+                const currentAnswer = state.filbAnswers[qId];
+                const isCorrect = currentAnswer && currentAnswer.submitted && checkFilbAnswer(currentAnswer.text, item.ans);
+                const resultClass = currentAnswer && currentAnswer.submitted ? (isCorrect ? 'bg-green-800 border-green-500' : 'bg-red-800 border-red-500') : 'border-gray-700';
+
+                const displayAns = item.ans.split(',').map(a => a.trim()).join(' / ');
+                const cleanQuestion = item.text.replace('_.', '...').replace('_.', '...');
+
+                html += `
+                    <div id="${qId}-container" class="p-4 border-2 rounded-lg ${resultClass} bg-gray-800/50">
+                        <p class="font-medium mb-3 text-light-main">${index + 1}. ${cleanQuestion}</p>
+                        <input type="text" id="${qId}-input" name="${qId}" placeholder="Enter keyword(s) here" class="w-full p-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-100 bg-gray-700 text-light-main ${currentAnswer && currentAnswer.submitted ? 'opacity-70' : ''}" value="${currentAnswer ? currentAnswer.text : ''}" ${currentAnswer && currentAnswer.submitted ? 'disabled' : ''}>
+                        ${currentAnswer && currentAnswer.submitted ? `<p class="mt-2 text-sm ${isCorrect ? 'text-green-300' : 'text-red-300'} font-semibold">Result: ${isCorrect ? 'Correct!' : `Incorrect. Correct answer(s): ${displayAns}`}</p>` : ''}
+                    </div>
+                `;
+            });
+            html += `</div></form>`;
+
+            return html;
+        }
+
+        function renderFlashcardsSection(flashcards) {
+            const currentCardIndex = document.getElementById('card-index-display')?.dataset.index || 0;
+            const card = flashcards[currentCardIndex % flashcards.length];
+            const isFlipped = document.getElementById('flashcard-body')?.classList.contains('flipped');
+            const buttonText = isFlipped ? 'Flip to Front' : 'Flip to Back';
+
+            let html = `<h2 class="text-2xl font-bold mb-6 text-light-main">Flashcards</h2>`;
+
+            html += `
+                <div class="flex flex-col items-center space-y-8">
+                    
+                    <div class="text-lg font-semibold text-light-main">Card ${parseInt(currentCardIndex) + 1} of ${flashcards.length}</div>
+
+                    <div class="card-container w-full max-w-4xl">
+                        <div id="flashcard-body" class="flashcard ${isFlipped ? 'flipped' : ''}">
+                            <!-- Front Face -->
+                            <div class="front p-8 shadow-2xl border-4 border-gray-700 bg-gray-800">
+                                <span class="text-2xl font-bold text-center">${card.front}</span>
+                            </div>
+                            <!-- Back Face -->
+                            <div class="back p-8 shadow-2xl">
+                                <span class="text-lg font-medium">${card.back}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation and Flip Controls (New UI) -->
+                    <div class="flex items-center space-x-6 w-full max-w-lg justify-between">
+                        <button onclick="changeCard(-1)" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-lg flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            Previous
+                        </button>
+                        
+                        <button onclick="flipCard()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-lg">
+                            ${buttonText}
+                        </button>
+
+                        <button onclick="changeCard(1)" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition duration-150 shadow-lg flex items-center">
+                            Next
+                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+
+                    <span id="card-index-display" data-index="${currentCardIndex}" class="hidden"></span>
+
+                </div>
+            `;
+            return html;
+        }
+
+        function renderMindMapSection(mindmapData) {
+            let html = `<h2 class="text-2xl font-bold mb-6 text-light-main">Interactive Mind Map</h2>`;
+            html += `<div id="mind-map-container" class="p-4 border-2 border-gray-700 rounded-lg min-h-80 bg-gray-800 flex justify-center items-center relative">`;
+            html += buildMindMapHTML(mindmapData);
+            html += `</div>`;
+            return html;
+        }
+
+        // --- Mind Map specific utility ---
+        let activeNode = null;
+
+        function buildMindMapHTML(node, depth = 0, parentId = 'root') {
+            // Creates a semi-unique ID for node tracking
+            const nodeId = `${parentId}-${node.name.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10) + depth}`; 
+            
+            let nodeHtml = `<div id="${nodeId}" class="mind-map-node depth-${depth} ${depth === 0 ? 'text-2xl font-extrabold bg-blue-500 text-white border-blue-500 shadow-2xl' : ''}" data-name="${node.name}" data-depth="${depth}" onclick="focusMindMap('${nodeId}', event)">${node.name}</div>`;
+
+            if (node.children && node.children.length > 0) {
+                // If not the root, wrap the node with its vertical connector.
+                if(depth > 0) {
+                    nodeHtml = `<div class="mind-map-branch relative">
+                                    <div style="position: absolute; top: 0; left: 50%; width: 2px; height: 15px; background-color: #4b5563; transform: translateX(-50%);"></div>
+                                    ${nodeHtml}
+                                </div>`;
+                }
+                
+                // Horizontal connector and child nodes wrapper
+                nodeHtml += `<div class="mind-map-children flex flex-wrap justify-center items-start relative">`;
+                
+                node.children.forEach(child => {
+                    // Each child node forms a new branch structure
+                    nodeHtml += `<div class="p-2 flex flex-col items-center relative">
+                                    ${buildMindMapHTML(child, depth + 1, nodeId)}
+                                 </div>`;
+                });
+                
+                nodeHtml += `</div>`;
+            } else {
+                 // For leaf nodes (depth > 0), wrap with connector
+                 if(depth > 0) {
+                     nodeHtml = `<div class="mind-map-branch relative">
+                                    <div style="position: absolute; top: 0; left: 50%; width: 2px; height: 15px; background-color: #4b5563; transform: translateX(-50%);"></div>
+                                    ${nodeHtml}
+                                 </div>`;
+                 }
+            }
+            
+            // The absolute root node (depth 0) is treated slightly differently in the layout.
+            return depth === 0 ? `<div class="mind-map-branch depth-0">${nodeHtml}</div>` : nodeHtml;
+        }
+
+        function focusMindMap(nodeId, event) {
+            event.stopPropagation();
+            const nodeElement = document.getElementById(nodeId);
+            const container = document.getElementById('mind-map-container');
+            
+            if (!nodeElement) return; // Safety check
+
+            // If it's a child node, strip the depth prefix from the data-name for lookup
+            const targetName = nodeElement.dataset.name;
+            const rootNodeData = moduleData[state.currentModule].mindmap;
+            const nodeData = findNodeByName(rootNodeData, targetName);
+
+            if (!nodeData) return;
+
+            if (activeNode === nodeId || nodeData.name === rootNodeData.name && container.children.length > 0 && container.children[0].classList.contains('depth-0')) {
+                // Reset view if clicking the current root or the general root again
+                activeNode = null;
+                container.innerHTML = buildMindMapHTML(rootNodeData);
+                container.classList.remove('justify-start', 'items-start');
+                container.classList.add('justify-center', 'items-center');
+                const contextDisplay = document.getElementById('mind-map-context');
+                if (contextDisplay) contextDisplay.remove();
+                return;
+            }
+
+            activeNode = nodeId;
+            
+            // Rebuild the map starting from the selected node as the new root
+            container.innerHTML = buildMindMapHTML(nodeData);
+            container.classList.remove('justify-center', 'items-center');
+            container.classList.add('justify-start', 'items-start');
+
+            // Find the *actual* root node of the currently rendered map and apply the 'active' class
+            const renderedRootNode = container.querySelector('.mind-map-node');
+            if (renderedRootNode) {
+                 renderedRootNode.classList.add('active');
+            }
+
+            const contextDisplay = document.getElementById('mind-map-context');
+            if (contextDisplay) contextDisplay.remove();
+
+            const description = nodeData.description || `<strong>${nodeData.name}</strong>: Click on a node to focus or click the root node again to reset the full map.`;
+            const popup = document.createElement('div');
+            popup.id = 'mind-map-context';
+            popup.className = 'absolute top-0 right-0 m-4 p-4 bg-gray-700 border border-blue-300 rounded-lg shadow-lg max-w-xs text-sm text-light-main';
+            popup.innerHTML = description;
+            document.getElementById('section-view-container').appendChild(popup);
+        }
+
+        function findNodeByName(tree, name) {
+            if (tree.name === name) {
+                return tree;
+            }
+            if (tree.children) {
+                for (let child of tree.children) {
+                    const found = findNodeByName(child, name);
+                    if (found) {
+                        return found;
+                    }
+                }
+            }
+            return null;
+        }
+
+
+        // --- Interaction Handlers ---
+
+        function toggleCollapsible(contentId) {
+            const content = document.getElementById(contentId);
+            const iconId = contentId.replace('-content', '-icon');
+            const icon = document.getElementById(iconId);
+
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                content.style.maxHeight = '0';
+                icon.classList.remove('rotate-180');
+            } else {
+                // Collapse all others before expanding this one for guided learning flow
+                document.querySelectorAll('.collapsible-content.expanded').forEach(el => {
+                    el.classList.remove('expanded');
+                    el.style.maxHeight = '0';
+                    document.getElementById(el.id.replace('-content', '-icon')).classList.remove('rotate-180');
+                });
+
+                content.classList.add('expanded');
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.classList.add('rotate-180');
+            }
+        }
+
+
+        function switchModule(moduleName) {
+            state.currentModule = moduleName;
+            state.currentSection = 'Learning'; // Reset to default view
+            activeNode = null; // Reset mind map view
+            renderSidebar(); // Rerender sidebar to apply active class
+            renderMainContent();
+            updateAllCollapsibleHeights();
+        }
+
+        function switchSection(sectionName) {
+            state.currentSection = sectionName;
+            activeNode = null; // Reset mind map view
+            renderMainContent();
+            updateAllCollapsibleHeights();
+        }
+
+        function flipCard() {
+            document.getElementById('flashcard-body').classList.toggle('flipped');
+            renderMainContent(); // Re-render to update button text
+        }
+
+        function changeCard(direction) {
+            const data = moduleData[state.currentModule];
+            if (!data || !data.flashcards) return; 
+
+            const display = document.getElementById('card-index-display');
+            const totalCards = data.flashcards.length;
+            let currentIndex = parseInt(display.dataset.index);
+
+            currentIndex = (currentIndex + direction + totalCards) % totalCards;
+            display.dataset.index = currentIndex;
+
+            // Re-render the full section to update card content and controls
+            renderMainContent();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function cleanAnswer(answer) {
+            return answer.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+        }
+
+        function checkFilbAnswer(userAnswer, correctAns) {
+            const cleanUser = cleanAnswer(userAnswer);
+            const validAnswers = correctAns.split(',').map(cleanAnswer);
+            return validAnswers.some(ans => cleanUser.includes(ans) || ans.includes(cleanUser));
+        }
+
+        function submitQuiz() {
+            const form = document.getElementById('quiz-form');
+            if (!form) return;
+
+            const currentModule = state.currentModule;
+            const mcqs = generateDummyQuestions('mcqs');
+            const filbs = generateDummyQuestions('filbs');
+
+            let newMcqScore = 0;
+            let newFilbScore = 0;
+
+            // Process MCQs
+            mcqs.slice(0, NUM_MCQS).forEach((item, index) => {
+                const qId = `mcq-${currentModule}-${index}`;
+                const selected = form.elements[qId]?.value;
+
+                state.mcqAnswers[qId] = {
+                    selected: selected,
+                    submitted: true,
+                    correct: selected === item.ans
+                };
+                if (selected === item.ans) newMcqScore++;
+            });
+
+            // Process Fill-in-the-Blanks
+            filbs.slice(0, NUM_FILBS).forEach((item, index) => {
+                const qId = `filb-${currentModule}-${index}`;
+                const text = document.getElementById(`${qId}-input`)?.value || '';
+
+                const isCorrect = checkFilbAnswer(text, item.ans);
+
+                state.filbAnswers[qId] = {
+                    text: text,
+                    submitted: true,
+                    correct: isCorrect
+                };
+                if (isCorrect) newFilbScore++;
+            });
+
+            state.mcqScore = newMcqScore;
+            state.filbScore = newFilbScore;
+
+            renderMainContent(); // Re-render to show results
+            const scoreDisplay = document.getElementById('quiz-score-display');
+            scoreDisplay.textContent = `${state.mcqScore + state.filbScore} / ${NUM_MCQS + NUM_FILBS}`;
+
+            const resultsMessage = document.getElementById('quiz-results-message');
+            resultsMessage.textContent = `Quiz submitted! You scored ${state.mcqScore} out of ${NUM_MCQS} on MCQs and ${state.filbScore} out of ${NUM_FILBS} on FILBs. Total Score: ${state.mcqScore + state.filbScore}.`;
+            resultsMessage.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-yellow-100', 'text-yellow-700');
+            
+            // Adjust result message classes for dark theme
+            if (state.mcqScore + state.filbScore >= (NUM_MCQS + NUM_FILBS) * 0.8) {
+                resultsMessage.classList.add('bg-green-900', 'text-green-300', 'border-2', 'border-green-500');
+            } else if (state.mcqScore + state.filbScore >= (NUM_MCQS + NUM_FILBS) * 0.5) {
+                resultsMessage.classList.add('bg-yellow-900', 'text-yellow-300', 'border-2', 'border-yellow-500');
+            } else {
+                 resultsMessage.classList.add('bg-red-900', 'text-red-300', 'border-2', 'border-red-500');
+            }
+            resultsMessage.classList.remove('hidden');
+            window.scrollTo(0, 0); // Scroll to top to see the results
+        }
+
+        function resetQuiz() {
+            state.mcqScore = 0;
+            state.filbScore = 0;
+            state.mcqAnswers = {};
+            state.filbAnswers = {};
+            document.getElementById('quiz-results-message').classList.add('hidden');
+            renderMainContent();
+        }
+
+        // --- Initialization ---
+        
+        function updateAllCollapsibleHeights() {
+            document.querySelectorAll('.collapsible-content.expanded').forEach(content => {
+                content.style.maxHeight = content.scrollHeight + "px";
+            });
+        }
+        
+        function initialize() {
+            renderSidebar();
+            // renderMainContent is called inside renderSidebar now
+            // Attach resize listener to ensure collapsing works on screen size change
+            window.addEventListener('resize', updateAllCollapsibleHeights);
+            updateAllCollapsibleHeights(); // Initial fix to ensure correct display
+        }
+
+        window.onload = initialize;
+    </script>
+</head>
+<body class="flex min-h-screen">
+
+    <!-- Sidebar for Navigation -->
+    <div id="sidebar" class="sidebar w-64 flex-shrink-0 shadow-2xl z-10 p-4">
+        <div class="text-2xl font-extrabold text-blue-400 mb-6 border-b border-gray-700 pb-2">
+            Tech 3 Prep
+        </div>
+        <div id="sidebar-content">
+            <!-- Module links will be rendered here -->
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex-grow p-8 overflow-y-auto">
+        <header class="mb-8">
+            <h1 class="text-4xl font-black text-blue-400">University Exam Learning Hub</h1>
+            <p class="text-secondary mt-1">Study Guide for Technology 3 Construction Modules</p>
+        </header>
+
+        <main id="main-content-area" class="main-bg rounded-lg p-4 shadow-2xl">
+            <!-- Module content, tabs, and sections will be rendered here -->
+        </main>
+    </div>
+
+</body>
+</html>
